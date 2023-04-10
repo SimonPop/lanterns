@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Graph Structure Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Simon Popelier">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="The Lanterns ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">The Lanterns</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li class="active">
+                    <a href="/category/graphml.html">
+						<i class="icon-folder-open icon-large"></i>GraphML
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Graph Structure Learning">
+                                        Graph Structure Learning
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2023-04-10T00:00:00+02:00">
+        <i class="icon-calendar"></i>lun. 10 avril 2023
+</abbr>
+<span class="label">By</span>
+<a href="/author/simon-popelier.html"><i class="icon-user"></i>Simon Popelier</a>
+<span class="label">Category</span>
+<a href="/category/graphml.html"><i class="icon-folder-open"></i>GraphML</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/graph-structure-learning.html"><i class="icon-tag"></i>graph-structure-learning</a>
+	<a href="/tag/theory.html"><i class="icon-tag"></i>theory</a>
+	<a href="/tag/overview.html"><i class="icon-tag"></i>overview</a>
+</footer><!-- /.post-info -->                </div>
+                <h2>Introduction</h2>
+<p><em>You are at the top of a tower overlooking the city and watch people come and go like a colony of ants. Some are running into subway stations, and some are running out of them. As the day progresses, you see patterns that govern the number of people coming and going at different stations, at different times. Your almost pathological love of Machine Learning tells you that it would certainly be possible to predict this pattern. You think of your friend Michael, a strong advocate of graphs, and you remark that the use of Graph Neural Networks would be perfectly relevant in this case! The metro network is obviously at the heart of this dynamic. However, you don't have the map in front of you. How to take advantage of this technology?</em></p>
+<p>In this article, we will focus on Graph Structure Learning, a joint learning technique of the graph: the subway network, and the prediction object: the number of passengers at each station.</p>
+<p>More generally, this technique allows the use of graph-based methods on data for which the existence of an underlying graph is suspected, but for which the available graph is noisy, partially or completely unknown.</p>
+<p>The methods thus made available by the acquisition of a graph range from spectral techniques to the more recent use of Graph Neural Networks. The latter has been illustrated in recent years on different problems such as social network data (Fan et al., 2019), recommendations (Wu et al., 2022), or spatial analysis (Derrow-Pinion et al., 2021). </p>
+<p>The purpose of this article is to illustrate the usefulness of such a method and to explain the different approaches succinctly. We will take as an example the prediction of traffic on a fictitious subway network.</p>
+<h2>Motivation</h2>
+<h3>Performance</h3>
+<p>The main interest of such a method is above all to improve the performance of a model. This is done by adding an inductive bias that characterizes the problem as a graph problem. The performance is then improved by learning or refining this graph, helping the model to structure the inputs in a way that is adapted to the solution of the problem.</p>
+<h3>Explainability</h3>
+<p>Another reason to use such a module would be to be able to better understand the environment in which we work. Indeed, graphs allow a clear visualization and are anchored in the reality of the problem on which we can project ourselves to make the analysis. </p>
+<p>In our example, it could allow us to reveal the subway network until now hidden to the observer. This is also the idea behind Graph WaveNet (Wu et al., 2019).</p>
+<p>However, it should be noted that as the neural network grows in size, the underlying graph used by it may be distinct from the graph a human would tend to read things from. </p>
+<p>E.g. Even though the performance of the network is improved in the presence of the graph, the MTGNN model (Wu et al., 2020) hardly produces a human-readable graph.  </p>
+<p>In this case, we can talk about explainability and not only interpretability, since we are talking about the analysis of the neural network itself and the way it has modeled the problem.</p>
+<h3>Adversarial</h3>
+<p>Finally, it is also possible to use this mechanism as a protection against graph traffickers. Indeed, as for any type of data, it is possible to knowingly alter the prediction of a network to take advantage of it. This can be the case for example for a recommendation engine for which one would like to bias the prediction in favor or against a particular product. Graph Structure Learning can then rectify this graph, correcting in particular the inappropriate edges. This is what (Jin et al., 2020) call Graph Purification.</p>
+<h2>Implementations</h2>
+<h3>Paradigms</h3>
+<p>There are different ways to use an SLM module within a neural network architecture. </p>
+<p>1) Joint paradigm</p>
+<p>A simple solution in which a single GSL block is used, followed by the rest of the GNN.</p>
+<p>2) Adaptive paradigm</p>
+<p>A solution in which a succession of GSL-GNN blocks is used. This is for example the case with the MTGNN architecture (Wu et al., 2020).</p>
+<p>3) Iterative paradigm</p>
+<p>A solution that resembles the previous one, but that does not stipulate a fixed number of blocks but rather a condition from which we stop applying this block in a loop (Chen et al., 2020).</p>
+<h3>Constraints on the graph</h3>
+<p>When learning a graph, we will often want to constrain it to respect the attributes that graphs in general include.</p>
+<p>There are two ways to enforce these constraints: regularization (by altering the loss function) and architectural constraint (by altering the neural network itself).</p>
+<p>We will focus on the most frequently used attributes, but there are others.</p>
+<h4>Constraints by regularization</h4>
+<p>With regularization techniques, we alter the loss function to orient the learning of the graph: </p>
+<p>$$
+L = L_{pred} + \lambda L_{reg}
+$$</p>
+<p>In particular, we can enforce various constraints mentioned by (Kalofolias, 2016).</p>
+<ul>
+<li>Smoothness**: In a homophily context (connected nodes are similar), we want to make sure that connected nodes have a close representation.</li>
+</ul>
+<p>$$
+L_{reg}(A, X) = \frac{1}{2}\sum A_{ij}(x_i-x_j)^2
+$$</p>
+<p>Conversely, we could place ourselves in a heterophily context where we want the connected nodes to have distant embeddings.</p>
+<ul>
+<li>Paristy**: In reality, graphs are sparse, i.e. each node has only a few neighbors relative to the total number of nodes in the graph. To proceed, we can penalize the $l_0$ norm of the learned $A$-adjacency matrix:</li>
+</ul>
+<p>$$
+L_{reg}(A) = ||A||_0
+$$</p>
+<ul>
+<li><strong>Connectivity</strong>: We will also want to obtain a connected graph most of the time. For this we can rely on the rank of the adjacency matrix: the lower the rank, the more densely connected the graph is:</li>
+</ul>
+<p>$$
+L_{reg}(A) = rank(A)
+$$</p>
+<ul>
+<li>Degree positivity**: A trivial solution to these equations being a null matrix, we can emphasize the importance of having a positive degree for each node by using the following formula:</li>
+</ul>
+<p>$$
+L_{reg}(A) = -1^Tlog(A1)
+$$</p>
+<h4>Architectural constraints</h4>
+<ul>
+<li>Directivity**: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.</li>
+<li>Positivity**: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.</li>
+<li>Sparsity**: This is another method to ensure sparsity. Here, we can also use the function $ReLU$ to nullify the values below a certain threshold and thus ensure a $\epsilon-graph$. Another way to do this is to use a $kNN$ graph and choose the highest values in the adjacency matrix.</li>
+<li>Discretization**: We can wish that the edges of the graph are binary or not. If this is the case, we can use sampling or RL methods to ensure this. It is simpler and often preferable however to stick to weighted graphs, which offer more flexibility and easier learning methods because they are more easily differentiable.</li>
+</ul>
+<h3>Architecture</h3>
+<p>There are three notable architectures for learning a graph. All these architectures lead to the computation of an adjacency matrix, but do it differently.</p>
+<ul>
+<li>Direct optimization</li>
+</ul>
+<p>In this architecture, we will directly optimize the adjacency matrix $A$, as a free parameter. This is for example the case with the GLNN architecture (Gao et al., 2019).</p>
+<ul>
+<li>Metric-based approaches</li>
+</ul>
+<p>This approach uses a distance metric to estimate the edge weight between two nodes from the two embeddings of these nodes.  This allows the addition of new nodes if the embeddings of the nodes contain sufficient information to do so.</p>
+<p>For example, a classical metric like cosine similarity(Nguyen &amp; Bai, 2011) can be used: </p>
+<p>$$
+A = cos(w\odot v_i, w\odot v_j)
+$$</p>
+<p>with $w$ a trainable parameter. This is the case for example for the IDGL architecture (Chen et al., 2020).</p>
+<p>Some more complex methods can also replace classical metrics. One thinks for instance of <strong>attention mechanisms</strong> (Veličković et al., 2018).</p>
+<p>A last approach, <strong>structure-aware learning</strong>, additionally considers the attributes of the edge between the two nodes to establish the weight of the latter.</p>
+<h2>Conclusion</h2>
+<p>Graph Structure Learning methods are an excellent way to enable the use of graph methods that recent successes make attractive, by correcting or learning the structure to work on.</p>
+<p>In this article, we have given a first overview of these techniques: the reasons why they are used, how they are incorporated into a DNN network, their architecture, and the constraints they impose on the learned graph.</p>
+<p>This is a very active area of research and the points discussed here are far from exhaustive.</p>
+<p>This paper is based on the overviews of (Zhu et al., 2022) and (Chen, Yu, and Wu, Lingfei, 2022).</p>
+<p>We will experiment with a simple SLM method in a future paper.</p>
+<h2>Bibliography</h2>
+<p>Chen, Y., Wu, L., &amp; Zaki, M. J. (2020). <em>Iterative Deep Graph Learning for Graph Neural Networks : Better and Robust Node Embeddings</em> (arXiv:2006.13009). arXiv. <a href="https://doi.org/10.48550/arXiv.2006.13009">https://doi.org/10.48550/arXiv.2006.13009</a></p>
+<p>Derrow-Pinion, A., She, J., Wong, D., Lange, O., Hester, T., Perez, L., Nunkesser, M., Lee, S., Guo, X., Wiltshire, B., Battaglia, P. W., Gupta, V., Li, A., Xu, Z., Sanchez-Gonzalez, A., Li, Y., &amp; Veličković, P. (2021). ETA Prediction with Graph Neural Networks in Google Maps. <em>Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management</em>, 3767‑3776. <a href="https://doi.org/10.1145/3459637.3481916">https://doi.org/10.1145/3459637.3481916</a></p>
+<p>Fan, W., Ma, Y., Li, Q., He, Y., Zhao, E., Tang, J., &amp; Yin, D. (2019). Graph Neural Networks for Social Recommendation. <em>The World Wide Web Conference</em>, 417‑426. <a href="https://doi.org/10.1145/3308558.3313488">https://doi.org/10.1145/3308558.3313488</a></p>
+<p>Gao, X., Hu, W., &amp; Guo, Z. (2019). <em>Exploring Structure-Adaptive Graph Learning for Robust Semi-Supervised Classification</em> (arXiv:1904.10146). arXiv. <a href="https://doi.org/10.48550/arXiv.1904.10146">https://doi.org/10.48550/arXiv.1904.10146</a></p>
+<p><em>GNNBook@2023 : Graph Neural Networks : Graph Structure Learning</em>. (s. d.). Consulté 10 avril 2023, à l’adresse <a href="https://graph-neural-networks.github.io/gnnbook_Chapter14.html">https://graph-neural-networks.github.io/gnnbook_Chapter14.html</a></p>
+<p>Jin, W., Li, Y., Xu, H., Wang, Y., Ji, S., Aggarwal, C., &amp; Tang, J. (2020). <em>Adversarial Attacks and Defenses on Graphs : A Review, A Tool and Empirical Studies</em> (arXiv:2003.00653). arXiv. <a href="https://doi.org/10.48550/arXiv.2003.00653">https://doi.org/10.48550/arXiv.2003.00653</a></p>
+<p>Kalofolias, V. (2016). <em>How to learn a graph from smooth signals</em> (arXiv:1601.02513). arXiv. <a href="https://doi.org/10.48550/arXiv.1601.02513">https://doi.org/10.48550/arXiv.1601.02513</a></p>
+<p>Nguyen, H. V., &amp; Bai, L. (2011). Cosine Similarity Metric Learning for Face Verification. In R. Kimmel, R. Klette, &amp; A. Sugimoto (Éds.), <em>Computer Vision – ACCV 2010</em> (p. 709‑720). Springer. <a href="https://doi.org/10.1007/978-3-642-19309-5_55">https://doi.org/10.1007/978-3-642-19309-5_55</a></p>
+<p>Veličković, P., Cucurull, G., Casanova, A., Romero, A., Liò, P., &amp; Bengio, Y. (2018). <em>Graph Attention Networks</em> (arXiv:1710.10903). arXiv. <a href="https://doi.org/10.48550/arXiv.1710.10903">https://doi.org/10.48550/arXiv.1710.10903</a></p>
+<p>Wu, S., Sun, F., Zhang, W., Xie, X., &amp; Cui, B. (2022). <em>Graph Neural Networks in Recommender Systems : A Survey</em> (arXiv:2011.02260). arXiv. <a href="https://doi.org/10.48550/arXiv.2011.02260">https://doi.org/10.48550/arXiv.2011.02260</a></p>
+<p>Wu, Z., Pan, S., Long, G., Jiang, J., Chang, X., &amp; Zhang, C. (2020). <em>Connecting the Dots : Multivariate Time Series Forecasting with Graph Neural Networks</em> (arXiv:2005.11650). arXiv. <a href="https://doi.org/10.48550/arXiv.2005.11650">https://doi.org/10.48550/arXiv.2005.11650</a></p>
+<p>Zhu, Y., Xu, W., Zhang, J., Du, Y., Zhang, J., Liu, Q., Yang, C., &amp; Wu, S. (2022). <em>A Survey on Graph Structure Learning : Progress and Opportunities</em> (arXiv:2103.03036). arXiv. <a href="https://doi.org/10.48550/arXiv.2103.03036">https://doi.org/10.48550/arXiv.2103.03036</a></p>
+<p>Wu, Z., Pan, S., Long, G., Jiang, J., &amp; Zhang, C. (2019). <em>Graph WaveNet for Deep Spatial-Temporal Graph Modeling</em> (arXiv:1906.00121). arXiv. <a href="https://doi.org/10.48550/arXiv.1906.00121">https://doi.org/10.48550/arXiv.1906.00121</a></p>
+                </div><!-- /.entry-content -->
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="https://www.python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="https://palletsprojects.com/p/jinja/"><i class="icon-external-link"></i>Jinja2</a></li>
+    <li><a href="#"><i class="icon-external-link"></i>You can modify those links in your config file</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/graphml.html">
+    <i class="icon-folder-open icon-large"></i>GraphML
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
