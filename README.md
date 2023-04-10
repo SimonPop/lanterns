@@ -1,1 +1,1 @@
-"# lanterns" 
+The Lanterns Blog
