@@ -5,10 +5,11 @@ Tags: graph-structure-learning, theory, overview
 Author: Simon Popelier
 Summary: Short version for index and feeds
 
-
 ## Introduction
 
 *You are at the top of a tower overlooking the city and watch people come and go like a colony of ants. Some are running into subway stations, and some are running out of them. As the day progresses, you see patterns that govern the number of people coming and going at different stations, at different times. Your almost pathological love of Machine Learning tells you that it would certainly be possible to predict this pattern. You think of your friend Michael, a strong advocate of graphs, and you remark that the use of Graph Neural Networks would be perfectly relevant in this case! The metro network is obviously at the heart of this dynamic. However, you don't have the map in front of you. How to take advantage of this technology?*
+
+![Banner](./imgs/banner.png)
 
 In this article, we will focus on Graph Structure Learning, a joint learning technique of the graph: the subway network, and the prediction object: the number of passengers at each station.
 
@@ -46,6 +47,8 @@ Finally, it is also possible to use this mechanism as a protection against graph
 
 There are different ways to use an SLM module within a neural network architecture. 
 
+![Bloc description](./imgs/paradigms_blocs.png)
+
 1) Joint paradigm
 
 A simple solution in which a single GSL block is used, followed by the rest of the GNN.
@@ -57,6 +60,8 @@ A solution in which a succession of GSL-GNN blocks is used. This is for example 
 3) Iterative paradigm
 
 A solution that resembles the previous one, but that does not stipulate a fixed number of blocks but rather a condition from which we stop applying this block in a loop (Chen et al., 2020).
+
+![Paradigms](./imgs/paradigms.png)
 
 ### Constraints on the graph
 
@@ -76,7 +81,7 @@ $$
 
 In particular, we can enforce various constraints mentioned by (Kalofolias, 2016).
 
-- Smoothness**: In a homophily context (connected nodes are similar), we want to make sure that connected nodes have a close representation.
+- __Smoothness__: In a homophily context (connected nodes are similar), we want to make sure that connected nodes have a close representation.
 
 $$
 L_{reg}(A, X) = \frac{1}{2}\sum A_{ij}(x_i-x_j)^2
@@ -84,11 +89,15 @@ $$
 
  Conversely, we could place ourselves in a heterophily context where we want the connected nodes to have distant embeddings.
 
-- Paristy**: In reality, graphs are sparse, i.e. each node has only a few neighbors relative to the total number of nodes in the graph. To proceed, we can penalize the $l_0$ norm of the learned $A$-adjacency matrix:
+![Smoothness](./imgs/smoothness.png)
+
+- __Sparsity__: In reality, graphs are sparse, i.e. each node has only a few neighbors relative to the total number of nodes in the graph. To proceed, we can penalize the $l_0$ norm of the learned $A$-adjacency matrix:
 
 $$
 L_{reg}(A) = ||A||_0
 $$
+
+![Sparsity](./imgs/sparsity.png)
 
 - **Connectivity**: We will also want to obtain a connected graph most of the time. For this we can rely on the rank of the adjacency matrix: the lower the rank, the more densely connected the graph is:
 
@@ -96,7 +105,7 @@ $$
 L_{reg}(A) = rank(A)
 $$
 
-- Degree positivity**: A trivial solution to these equations being a null matrix, we can emphasize the importance of having a positive degree for each node by using the following formula:
+- __Degree positivity__: A trivial solution to these equations being a null matrix, we can emphasize the importance of having a positive degree for each node by using the following formula:
 
 $$
 L_{reg}(A) = -1^Tlog(A1)
@@ -104,10 +113,15 @@ $$
 
 #### Architectural constraints
 
-- Directivity**: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.
-- Positivity**: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.
-- Sparsity**: This is another method to ensure sparsity. Here, we can also use the function $ReLU$ to nullify the values below a certain threshold and thus ensure a $\epsilon-graph$. Another way to do this is to use a $kNN$ graph and choose the highest values in the adjacency matrix.
-- Discretization**: We can wish that the edges of the graph are binary or not. If this is the case, we can use sampling or RL methods to ensure this. It is simpler and often preferable however to stick to weighted graphs, which offer more flexibility and easier learning methods because they are more easily differentiable.
+- __Directivity__: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.
+
+![Directivity](./imgs/directed.png)
+
+- __Positivity__: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.
+
+- __Sparsity__: This is another method to ensure sparsity. Here, we can also use the function $ReLU$ to nullify the values below a certain threshold and thus ensure a $\epsilon-graph$. Another way to do this is to use a $kNN$ graph and choose the highest values in the adjacency matrix.
+
+- __Discretization__: We can wish that the edges of the graph are binary or not. If this is the case, we can use sampling or RL methods to ensure this. It is simpler and often preferable however to stick to weighted graphs, which offer more flexibility and easier learning methods because they are more easily differentiable.
 
 ### Architecture
 
@@ -116,6 +130,8 @@ There are three notable architectures for learning a graph. All these architectu
 - Direct optimization
 
 In this architecture, we will directly optimize the adjacency matrix $A$, as a free parameter. This is for example the case with the GLNN architecture (Gao et al., 2019).
+
+![Adjacency Matrix](./imgs/adjacency_matrix.png)
 
 - Metric-based approaches
 
@@ -128,6 +144,8 @@ A = cos(w\odot v_i, w\odot v_j)
 $$
 
 with $w$ a trainable parameter. This is the case for example for the IDGL architecture (Chen et al., 2020).
+
+![Similarity](./imgs/similarity.png)
 
 Some more complex methods can also replace classical metrics. One thinks for instance of **attention mechanisms** (Veličković et al., 2018).
 
