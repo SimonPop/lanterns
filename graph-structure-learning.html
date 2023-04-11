@@ -66,7 +66,7 @@
 <h2>Implementations</h2>
 <h3>Paradigms</h3>
 <p>There are different ways to use an SLM module within a neural network architecture. </p>
-<p><img src="./imgs/paradigms_blocs.png" alt= "Bloc description" width="400" height="200"></p>
+<p><img src="./imgs/paradigms_blocs.png" alt= "Bloc description" width="100%"></p>
 <p>1) Joint paradigm</p>
 <p>A simple solution in which a single GSL block is used, followed by the rest of the GNN.</p>
 <p>2) Adaptive paradigm</p>
@@ -91,14 +91,20 @@ $$</p>
 L_{reg}(A, X) = \frac{1}{2}\sum A_{ij}(x_i-x_j)^2
 $$</p>
 <p>Conversely, we could place ourselves in a heterophily context where we want the connected nodes to have distant embeddings.</p>
-<p><img src="./imgs/smoothness.png" alt= "Smoothness" width="50%"></p>
+<p align="center">
+    <img src="./imgs/smoothness.png" alt= "Smoothness" width="50%">
+</p>
+
 <ul>
 <li><strong>Sparsity</strong>: In reality, graphs are sparse, i.e. each node has only a few neighbors relative to the total number of nodes in the graph. To proceed, we can penalize the $l_0$ norm of the learned $A$-adjacency matrix:</li>
 </ul>
 <p>$$
 L_{reg}(A) = ||A||_0
 $$</p>
-<p><img src="./imgs/sparsity.png" alt= "Sparsity" width="50%"></p>
+<p align="center">
+    <img src="./imgs/sparsity.png" alt= "Sparsity" width="50%">
+</p>
+
 <ul>
 <li><strong>Connectivity</strong>: We will also want to obtain a connected graph most of the time. For this we can rely on the rank of the adjacency matrix: the lower the rank, the more densely connected the graph is:</li>
 </ul>
@@ -115,7 +121,10 @@ $$</p>
 <ul>
 <li><strong>Directivity</strong>: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.</li>
 </ul>
-<p><img src="./imgs/directed.png" alt= "Directivity" width="50%"></p>
+<p align="center">
+    <img src="./imgs/directed.png" alt= "Directivity" width="50%">
+</p>
+
 <ul>
 <li>
 <p><strong>Positivity</strong>: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.</p>
