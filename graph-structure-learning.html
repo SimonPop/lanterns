@@ -23,10 +23,8 @@
             <h1 id="user"><a href="" class="">Simon Popelier</a></h1>
 			<h2></h2>
 			<ul>
-					<li><a href="https://getpelican.com/">Pelican</a></li>
-					<li><a href="https://www.python.org/">Python.org</a></li>
-					<li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
-					<li><a href="#">You can modify those links in your config file</a></li>
+					<li><a href="https://github.com/SimonPop">GitHub</a></li>
+					<li><a href="https://www.linkedin.com/in/simon-popelier/">LinkedIn</a></li>
 			</ul>
 		</div>
 		<footer>
@@ -75,7 +73,7 @@
 <p>A solution in which a succession of GSL-GNN blocks is used. This is for example the case with the MTGNN architecture (Wu et al., 2020).</p>
 <p>3) Iterative paradigm</p>
 <p>A solution that resembles the previous one, but that does not stipulate a fixed number of blocks but rather a condition from which we stop applying this block in a loop (Chen et al., 2020).</p>
-<p><img alt="Paradigms" src="./imgs/paradigms.png"></p>
+<p><img src="./imgs/paradigms.png" alt= "Paradigms" width="100%"></p>
 <h3>Constraints on the graph</h3>
 <p>When learning a graph, we will often want to constrain it to respect the attributes that graphs in general include.</p>
 <p>There are two ways to enforce these constraints: regularization (by altering the loss function) and architectural constraint (by altering the neural network itself).</p>
@@ -117,7 +115,7 @@ $$</p>
 <ul>
 <li><strong>Directivity</strong>: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.</li>
 </ul>
-<p><img alt="Directivity" src="./imgs/directed.png"></p>
+<p><img src="./imgs/directed.png" alt= "Directivity" width="50%"></p>
 <ul>
 <li>
 <p><strong>Positivity</strong>: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.</p>
@@ -135,7 +133,7 @@ $$</p>
 <li>Direct optimization</li>
 </ul>
 <p>In this architecture, we will directly optimize the adjacency matrix $A$, as a free parameter. This is for example the case with the GLNN architecture (Gao et al., 2019).</p>
-<p><img alt="Adjacency Matrix" src="./imgs/adjacency_matrix.png"></p>
+<p><img src="./imgs/adjacency_matrix.png" alt= "Adjacency Matrix" width="100%"></p>
 <ul>
 <li>Metric-based approaches</li>
 </ul>
@@ -145,7 +143,7 @@ $$</p>
 A = cos(w\odot v_i, w\odot v_j)
 $$</p>
 <p>with $w$ a trainable parameter. This is the case for example for the IDGL architecture (Chen et al., 2020).</p>
-<p><img alt="Similarity" src="./imgs/similarity.png"></p>
+<p><img src="./imgs/similarity.png" alt= "Similarity" width="100%"></p>
 <p>Some more complex methods can also replace classical metrics. One thinks for instance of <strong>attention mechanisms</strong> (Veličković et al., 2018).</p>
 <p>A last approach, <strong>structure-aware learning</strong>, additionally considers the attributes of the edge between the two nodes to establish the weight of the latter.</p>
 <h2>Conclusion</h2>
