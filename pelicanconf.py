@@ -32,4 +32,5 @@ DEFAULT_PAGINATION = 10
 THEME = 'themes/svbtle'
 OUTPUT_PATH = 'output'
 
-STATIC_PATHS = ['imgs']
+STATIC_PATHS = ['imgs', 'extra']
+EXTRA_PATH_METADATA = {'extra/lantern.ico': {'path': 'favicon.ico'}}
