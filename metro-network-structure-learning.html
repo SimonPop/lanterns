@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
+	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
+	<link rel="stylesheet" type="text/css" href="/theme/css/pygments.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
+
+	<link href="/" type="application/atom+xml" rel="alternate" title="The Lanterns ATOM Feed" />
+
+
+		<title>The Lanterns</title>
+		<meta charset="utf-8" />
+</head>
+<body>
+	<section id="sidebar">
+		<figure id="user_logo">
+            <a href=""><div class="logo">&nbsp;</div></a>
+		</figure>
+
+		<div class="user_meta">
+            <h1 id="user"><a href="" class="">Simon Popelier</a></h1>
+			<h2></h2>
+			<ul>
+					<li><a href="https://github.com/SimonPop">GitHub</a></li>
+					<li><a href="https://www.linkedin.com/in/simon-popelier/">LinkedIn</a></li>
+			</ul>
+		</div>
+		<footer>
+			<address>
+				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
+		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
+			</address>
+		</footer>
+	</section>
+
+	<section id="posts">
+	<header>
+		<h1>Simon Popelier's blog</h1>
+		<h3>Posted lun. 10 avril 2023</h3>
+	</header>
+	<article>
+		<h1 id="title">
+			<a href="/metro-network-structure-learning.html" rel="bookmark"
+				title="Permalink to Metro Network Structure Learning">Metro Network Structure Learning</a>
+		</h1>
+		<h1>Objective</h1>
+<p>The goal of this article will be to explore a simple Graph Structure Learning architecture and to study its impact on the traffic prediction of a synthetic subway network.</p>
+<p>In particular, we will attempt to observe the graph learned by the model to make its prediction and compare it to the subway network.</p>
+<p>We will also try to demonstrate one of the key aspects of Graph Structure Learning methods: resilience, both to noisy data, and to an altered initial graph.</p>
+<h1>Data</h1>
+<p>Data brings together two ideas: </p>
+<ul>
+<li>The real, underlying network that underlies the data, in this case a synthetic subway line network.</li>
+<li>The process that takes place on the network, here the synthetic traffic of subway users.</li>
+</ul>
+<h2>Subway Network</h2>
+<p>The metro network is created using a manual configuration. </p>
+<p>It specifies the different lines that the network must have and the intersections between these lines.</p>
+<p>When instantiating the graph, we actually create 2 nodes per station, per line, for each direction of the line, and an additional node if the station is located at an intersection. </p>
+<p>This additional degree of precision compared to a simple node per station should allow the model to learn more easily to predict the traffic.</p>
+<p>However, in the visualizations, we will show the aggregated result per station for a better readability, when possible.</p>
+<p><img src="imgs/metro-gsl/metro-lines.png" alt= "Metro lines configurations" width="100%"></p>
+<h2>Markov Process</h2>
+<p>The signal representing the traffic is also generated synthetically, but in a random and automatic way. </p>
+<p>We initialize the traffic to a random number of people for each station (each node more precisely), then we simulate step by step the signal propagating in the network following a Markov process.</p>
+<p><img src="imgs/metro-gsl/traffic-signal.png" alt= "Markov process" width="100%"></p>
+<p>We add to this a degree of uncertainty on the data driven by two parameters:</p>
+<ul>
+<li>Additional noise</li>
+<li>Multiplicative noise</li>
+</ul>
+<p><img src="imgs/metro-gsl/markov-process.jpg" alt= "Markov signal" width="100%"></p>
+<h2>Objective</h2>
+<p>The model we will describe in the next section will be auto-regressive: it will try to predict the traffic value based on previous traffic values. </p>
+<p>More precisely, at first, it will only use one step to predict the next one. </p>
+<p>Given the simplicity of the data model, the model will be able to correctly predict the metro traffic with this information only.</p>
+<p><img src="imgs/metro-gsl/markov-prediction.jpg" alt= "Markov prediction" width="100%"></p>
+<h1>Model</h1>
+<h2>Graph Structure Learning module</h2>
+<h3>Direct optimization</h3>
+<p>In this version of the model, we use a direct optimization technique of the Adjacency matrix. We can define this matrix with PyTorch and initialize it with the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_uniform_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">2.23</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Embedding</h3>
+<p>In this version, we rather learn embeddings for each node, which will then be used to evaluate a respective distance, finally giving access to the adjacency matrix. The code used is the following:</p>
+<div class="highlight"><pre><span></span><code><span class="bp">self</span><span class="o">.</span><span class="n">node_embeddings_start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">node_embeddings_target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Two different embeddings per node are defined. In this way, the <span class="math">\(A_{ij}\)</span> stop can be different from  <span class="math">\(A_{ji}\)</span> .</p>
+<h3>Positivity constraint enforcement</h3>
+<p>A constraint that we may wish to enforce in the creation of our graph is the positivity constraint of the weights of the edges. This is our case here, since we want to replicate the real process, and we are dealing with the exchange of people between stations, which must be positive. For this, we can use two architectural techniques (as opposed to loss altering): the application of the ReLU function or the exponential function.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using exponential function</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+<span class="c1"># Using ReLU</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Sparsity constraint enforcement</h3>
+<p>A classical constraint when using GSLs, to get closer to reality, is the sparisty constraint. To constrain the graph to respect this, we use an architectural technique by keeping for each node only <strong>k</strong> neighbors.</p>
+<p>This method has the advantage of being safe, but the disadvantage of limiting the flexibility of the graph and of inducing a new hyperparameter.</p>
+<div class="highlight"><pre><span></span><code><span class="n">values</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">neighbor_nb</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">mask</span><span class="o">.</span><span class="n">scatter_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">values</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">A</span><span class="o">*</span><span class="n">mask</span>
+</code></pre></div>
+
+<h2>Alternatives</h2>
+<p>For a problem as simplified as this one, it would have been relevant to use other techniques to obtain a similar or better performance in less time.</p>
+<h3>Markov Model</h3>
+<p>Since the data follows a Markov process, one immediately thinks of a modeling using a Markov model (MM, HMM).</p>
+<p>The model becomes less relevant if we add a longer time dimension to the data: the traffic at a time t depends not only on <em>t-1</em> but also on the previous steps <em>t-2</em>, ..., <em>t-n</em>.</p>
+<h1>Experiments</h1>
+<h2>Construction of the graph</h2>
+<p>In this experiment, we study the evolution of the graph construction as the neural network is trained.</p>
+<p><img src="imgs/metro-gsl/reconstruction-steps-graph.png" alt= "Graph construction during learning" width="100%"></p>
+<p>We compare the two graphs using two metrics: <strong>recall</strong> and <strong>precision</strong>.</p>
+<div class="math">$$recall = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;reference\;edges}$$</div>
+<div class="math">$$precision = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;learned\;edges}$$</div>
+<p><img src="imgs/metro-gsl/precision-recall.png" alt= "Graph construction precision recall" width="100%"></p>
+<p>We see that at the initialization of the matrix, the graph is quasi-complete: e.g. every pair of nodes are connected due to the initialization technique of the matrix (<code>kaiming_uniform</code>). Then very quickly to satisfy the sparisity constraints, the graph becomes completely disconnected. And finally the balance is learned until the exact graph is found at the end of the training.</p>
+<p>We can see these different phases on the illustration of the graph under construction above.</p>
+<p>This is a very simple case to find this balance, in a practical case, the graph is never completely found.</p>
+<h2>Noisy data</h2>
+<p>In this experiment, we will use noisy data by manipulating the multiplicative and additive noise hyperparameters. </p>
+<p>We explore the impact that this can have on the performance of the network as well as on the graph retrieval.</p>
+<h3>Multiplicative noise</h3>
+<p>We vary the multiplicative noise between 0 and 1 by steps of 0.1. The formula of the noise added at each step of the signal simulation is the following:</p>
+<div class="math">$$A' = A * (1 + m)$$</div>
+<p>with <span class="math">\(m \in R^n\)</span> and <span class="math">\(m_i \sim U(-\frac{level}{2}, \frac{level}{2})\)</span>.</p>
+<p>We see that learning is impacted by noise, but that the model still manages to learn.</p>
+<p><img src="imgs/metro-gsl/multiplicative-noise.png" alt= "Multiplicative noise" width="100%"></p>
+<h3>Additive noise</h3>
+<p>The same is true for additive noise, which follows the following equation:</p>
+<div class="math">$$
+A' = A + a
+$$</div>
+<p>with <span class="math">\(a \in R^n\)</span> and <span class="math">\(a_i \sim U(-\frac{level}{2}, \frac{level}{2})\)</span></p>
+<p><img src="imgs/metro-gsl/additiv-noise.png" alt= "Additive noise" width="100%"></p>
+<p>And as for the graph, it is also learned despite the noise. Here is an illustration of the graph under construction during the learning process with an additive noise of 0.1 . We find the beginning of the architecture of the reference network.</p>
+<p><img src="imgs/metro-gsl/noise-graph.png" alt= "Noisy data graph" width="100%"></p>
+<h1>Conclusion</h1>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+		<div id="article_meta">
+				Category:
+					<a href="/category/graphml.html">GraphML</a>
+				<br />Tags:
+					<a href="/tag/graph-structure-learning.html">graph-structure-learning</a>
+					<a href="/tag/practice.html">practice</a>
+		</div>
+	</article>
+
+	<footer>
+		<a href="/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
+	</footer>
+
+
+	</section>
+
+</body>
+</html>
