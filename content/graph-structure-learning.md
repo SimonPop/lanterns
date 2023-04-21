@@ -10,7 +10,7 @@ Summary: Introduction to Graph Structure Learning, a method for learning graph c
 *You are at the top of a tower overlooking the city and watch people come and go like a colony of ants. Some are running into subway stations, and some are running out of them. As the day progresses, you see patterns that govern the number of people coming and going at different stations, at different times. Your almost pathological love of Machine Learning tells you that it would certainly be possible to predict this pattern. You think of your friend Michael, a strong advocate of graphs, and you remark that the use of Graph Neural Networks would be perfectly relevant in this case! The metro network is obviously at the heart of this dynamic. However, you don't have the map in front of you. How to take advantage of this technology?*
 
 
-<img src="./imgs/banner.png" alt= "Banner" width="100%">
+<img src="./imgs/graph-structure-learning/banner.png" alt= "Banner" width="100%">
 
 In this article, we will focus on Graph Structure Learning, a joint learning technique of the graph: the subway network, and the prediction object: the number of passengers at each station.
 
@@ -48,7 +48,7 @@ Finally, it is also possible to use this mechanism as a protection against graph
 
 There are different ways to use an SLM module within a neural network architecture. 
 
-<img src="./imgs/paradigms_blocs.png" alt= "Bloc description" width="100%">
+<img src="./imgs/graph-structure-learning/paradigms_blocs.png" alt= "Bloc description" width="100%">
 
 1) Joint paradigm
 
@@ -62,7 +62,7 @@ A solution in which a succession of GSL-GNN blocks is used. This is for example 
 
 A solution that resembles the previous one, but that does not stipulate a fixed number of blocks but rather a condition from which we stop applying this block in a loop (Chen et al., 2020).
 
-<img src="./imgs/paradigms.png" alt= "Paradigms" width="100%">
+<img src="./imgs/graph-structure-learning/paradigms.png" alt= "Paradigms" width="100%">
 
 ### Constraints on the graph
 
@@ -91,7 +91,7 @@ $$
  Conversely, we could place ourselves in a heterophily context where we want the connected nodes to have distant embeddings.
 
 <p align="center">
-    <img src="./imgs/smoothness.png" alt= "Smoothness" width="50%">
+    <img src="./imgs/graph-structure-learning/smoothness.png" alt= "Smoothness" width="50%">
 </p>
 
 - __Sparsity__: In reality, graphs are sparse, i.e. each node has only a few neighbors relative to the total number of nodes in the graph. To proceed, we can penalize the $l_0$ norm of the learned $A$-adjacency matrix:
@@ -101,7 +101,7 @@ L_{reg}(A) = ||A||_0
 $$
 
 <p align="center">
-    <img src="./imgs/sparsity.png" alt= "Sparsity" width="50%">
+    <img src="./imgs/graph-structure-learning/sparsity.png" alt= "Sparsity" width="50%">
 </p>
 
 - **Connectivity**: We will also want to obtain a connected graph most of the time. For this we can rely on the rank of the adjacency matrix: the lower the rank, the more densely connected the graph is:
@@ -121,7 +121,7 @@ $$
 - __Directivity__: We can impose or not that the graph is directed. That is to say, allow $A_{ij} \neq A_{ji}$. For this, the matrix must be non-symmetric. So, in the context of node embeddings, we want to have a distance $d(X_i, X_j)$ which is not symmetric for a directed graph, and symmetric for an undirected graph. The MTGNN architecture (Wu et al., 2020) proposes for example learning two embeddings per node to differentiate one direction or the other of an edge.
 
 <p align="center">
-    <img src="./imgs/directed.png" alt= "Directivity" width="50%">
+    <img src="./imgs/graph-structure-learning/directed.png" alt= "Directivity" width="50%">
 </p>
 
 - __Positivity__: We may wish to guarantee the positivity of the edges of the graph, for that it is possible to nullify the negative values: $A' = ReLU(A)$, or to make them positive $A' = exp(A)$.
@@ -138,7 +138,7 @@ There are three notable architectures for learning a graph. All these architectu
 
 In this architecture, we will directly optimize the adjacency matrix $A$, as a free parameter. This is for example the case with the GLNN architecture (Gao et al., 2019).
 
-<img src="./imgs/adjacency_matrix.png" alt= "Adjacency Matrix" width="100%">
+<img src="./imgs/graph-structure-learning/adjacency_matrix.png" alt= "Adjacency Matrix" width="100%">
 
 - Metric-based approaches
 
@@ -152,7 +152,7 @@ $$
 
 with $w$ a trainable parameter. This is the case for example for the IDGL architecture (Chen et al., 2020).
 
-<img src="./imgs/similarity.png" alt= "Similarity" width="100%">
+<img src="./imgs/graph-structure-learning/similarity.png" alt= "Similarity" width="100%">
 
 Some more complex methods can also replace classical metrics. One thinks for instance of **attention mechanisms** (Veličković et al., 2018).
 
