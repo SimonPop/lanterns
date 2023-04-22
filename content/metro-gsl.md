@@ -175,3 +175,19 @@ And as for the graph, it is also learned despite the noise. Here is an illustrat
 
 
 # Conclusion
+
+In conclusion, for simple cases such as the one presented in this article, the Graph Structure Learning module fulfills all the functions that can be expected from it:
+
+- Reconstruction of the underlying network: it reconstructs the real network behind the learned signal.
+- Resilience to noise in the input signal: it continues to learn the network correctly despite a noisy signal.
+- Resilience to graph initialization: it allows retrieving the original network despite a trafficked graph at initialization.
+
+However, it should be noted that the explainability of SLGs can decrease with the increase of the model capacity. Models such as the MTGNN can give a satisfactory performance in the prediction of a signal without giving access to a clear interpretation of the underlying network.
+
+On the other hand, resilience to various adversarial attacks is being sought, including in high-capacity models, and is being actively studied today.
+
+## References
+
+- [GNN Book](https://graph-neural-networks.github.io/gnnbook_Chapter14.html) by Chen, Yu and Wu, Lingfei
+- [A Survey on Graph Structure Learning: Progress and Opportunities](https://arxiv.org/abs/2103.03036) by Yanqiao Zhu, Weizhi Xu, Jinghao Zhang, Yuanqi Du, Jieyu Zhang, Qiang Liu, Carl Yang, Shu Wu
+- [Connecting the Dots: Multivariate Time Series Forecasting with Graph Neural Networks ](https://paperswithcode.com/paper/connecting-the-dots-multivariate-time-series) by  Zonghan Wu, Shirui Pan, Guodong Long, Jing Jiang, Xiaojun Chang, Chengqi Zhang 
