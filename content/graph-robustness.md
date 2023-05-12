@@ -96,7 +96,7 @@ To study this phenomenon, we can define new parameters such as:
 
 ## Measuring robustness and vulnerability
 
-In order to measure the vulnerability of a network, we can use a span of different methods. We can split these methods into more classical graph theory methods and methods based on spectral graph theory, and more specifically the Laplacian eigenvalues. For each metric, we will give a quick description and the reason it can be used as a robustness or vulnerability indicator.
+In order to measure the vulnerability of a network, we can use a span of different methods as presented by (Ellens & Kooij, 2013). We can split these methods into more classical graph theory methods and methods based on spectral graph theory, and more specifically the Laplacian eigenvalues. For each metric, we will give a quick description and the reason it can be used as a robustness or vulnerability indicator.
 
 Similar metrics can be used for both paradigms, although with opposite interpretations.
 
