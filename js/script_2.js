@@ -7397,7 +7397,7 @@ function d3graphscript(
     hnode;
   const pathgen = d3.svg.line().interpolate("basis");
   const fill = d3.scale.category20();
-  const body = d3.select("body");
+  const body = d3.select("#my_dataviz");
   const vis = body.append("svg").attr("width", width).attr("height", height).style('display', 'block');
   const defaultRadius = 4
   const scaling = dr / defaultRadius
