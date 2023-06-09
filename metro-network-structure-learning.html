@@ -92,7 +92,7 @@
 <span class="bp">self</span><span class="o">.</span><span class="n">node_embeddings_target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Two different embeddings per node are defined. In this way, the <span class="math">\(A_{ij}\)</span> stop can be different from  <span class="math">\(A_{ji}\)</span> .</p>
+<p>Two different embeddings per node are defined. In this way, the $A_{ij}$ stop can be different from  $A_{ji}$ .</p>
 <h3>Positivity constraint enforcement</h3>
 <p>A constraint that we may wish to enforce in the creation of our graph is the positivity constraint of the weights of the edges. This is our case here, since we want to replicate the real process, and we are dealing with the exchange of people between stations, which must be positive. For this, we can use two architectural techniques (as opposed to loss altering): the application of the ReLU function or the exponential function.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Using exponential function</span>
@@ -120,8 +120,8 @@
 <p>In this experiment, we study the evolution of the graph construction as the neural network is trained.</p>
 <p><img src="imgs/metro-gsl/reconstruction-steps-graph.png" alt= "Graph construction during learning" width="100%"></p>
 <p>We compare the two graphs using two metrics: <strong>recall</strong> and <strong>precision</strong>.</p>
-<div class="math">$$recall = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;reference\;edges}$$</div>
-<div class="math">$$precision = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;learned\;edges}$$</div>
+<p>$$recall = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;reference\;edges}$$</p>
+<p>$$precision = \frac{Nb\;edges\;correctly\;learned}{Total\;nb\;learned\;edges}$$</p>
 <p><img src="imgs/metro-gsl/precision-recall.png" alt= "Graph construction precision recall" width="100%"></p>
 <p>We see that at the initialization of the matrix, the graph is quasi-complete: e.g. every pair of nodes are connected due to the initialization technique of the matrix (<code>kaiming_uniform</code>). Then very quickly to satisfy the sparisity constraints, the graph becomes completely disconnected. And finally the balance is learned until the exact graph is found at the end of the training.</p>
 <p>We can see these different phases on the illustration of the graph under construction above.</p>
@@ -131,16 +131,16 @@
 <p>We explore the impact that this can have on the performance of the network as well as on the graph retrieval.</p>
 <h3>Multiplicative noise</h3>
 <p>We vary the multiplicative noise between 0 and 1 by steps of 0.1. The formula of the noise added at each step of the signal simulation is the following:</p>
-<div class="math">$$A' = A * (1 + m)$$</div>
-<p>with <span class="math">\(m \in R^n\)</span> and <span class="math">\(m_i \sim U(-\frac{level}{2}, \frac{level}{2})\)</span>.</p>
+<p>$$A' = A * (1 + m)$$</p>
+<p>with $m \in R^n$ and $m_i \sim U(-\frac{level}{2}, \frac{level}{2})$.</p>
 <p>We see that learning is impacted by noise, but that the model still manages to learn.</p>
 <p><img src="imgs/metro-gsl/multiplicative-noise.png" alt= "Multiplicative noise" width="100%"></p>
 <h3>Additive noise</h3>
 <p>The same is true for additive noise, which follows the following equation:</p>
-<div class="math">$$
+<p>$$
 A' = A + a
-$$</div>
-<p>with <span class="math">\(a \in R^n\)</span> and <span class="math">\(a_i \sim U(-\frac{level}{2}, \frac{level}{2})\)</span></p>
+$$</p>
+<p>with $a \in R^n$ and $a_i \sim U(-\frac{level}{2}, \frac{level}{2})$</p>
 <p><img src="imgs/metro-gsl/additiv-noise.png" alt= "Additive noise" width="100%"></p>
 <p>And as for the graph, it is also learned despite the noise. Here is an illustration of the graph under construction during the learning process with an additive noise of 0.1 . We find the beginning of the architecture of the reference network.</p>
 <p><img src="imgs/metro-gsl/noise-graph.png" alt= "Noisy data graph" width="100%"></p>
@@ -159,68 +159,6 @@ $$</div>
 <li><a href="https://arxiv.org/abs/2103.03036">A Survey on Graph Structure Learning: Progress and Opportunities</a> by Yanqiao Zhu, Weizhi Xu, Jinghao Zhang, Yuanqi Du, Jieyu Zhang, Qiang Liu, Carl Yang, Shu Wu</li>
 <li><a href="https://paperswithcode.com/paper/connecting-the-dots-multivariate-time-series">Connecting the Dots: Multivariate Time Series Forecasting with Graph Neural Networks </a> by  Zonghan Wu, Shirui Pan, Guodong Long, Jing Jiang, Xiaojun Chang, Chengqi Zhang </li>
 </ul>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
 
 		<div id="article_meta">
 				Category:
