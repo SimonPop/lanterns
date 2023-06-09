@@ -34,3 +34,6 @@ OUTPUT_PATH = 'output'
 
 STATIC_PATHS = ['imgs', 'extra']
 EXTRA_PATH_METADATA = {'extra/lantern.ico': {'path': 'favicon.ico'}}
+
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['pelican-js', 'render_math'] # You may have more plugins
