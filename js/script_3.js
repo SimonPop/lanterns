@@ -136,7 +136,7 @@ function ForceGraph({
     return Object.assign(svg.node(), {scales: {color}});
   }
 
-  miserables =  {
+miserables =  {
     "nodes": [{"id": "A", group: 1}, {"id": "B", group: 1}],
     "links": [{"source": "A", "target": "B", value: 1}],
 }
@@ -148,5 +148,4 @@ function ForceGraph({
     linkStrokeWidth: l => Math.sqrt(l.value),
     width: 1600,
     height: 1600,
-    invalidation // a promise to stop the simulation when the cell is re-run
   })
