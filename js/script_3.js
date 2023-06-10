@@ -146,7 +146,7 @@ function ForceGraph({
     nodeGroup: d => d.group,
     nodeTitle: d => `${d.id}\n${d.group}`,
     linkStrokeWidth: l => Math.sqrt(l.value),
-    width,
-    height: 600,
+    width: 1600,
+    height: 1600,
     invalidation // a promise to stop the simulation when the cell is re-run
   })
