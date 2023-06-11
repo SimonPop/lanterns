@@ -56,9 +56,9 @@ function ForceGraph({
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
   
     const simulation = d3.forceSimulation(nodes)
-        .force("link", forceLink)
-        .force("charge", forceNode)
-        .force("center",  d3.forceCenter())
+        // .force("link", forceLink)
+        // .force("charge", forceNode)
+        // .force("center",  d3.forceCenter())
         .on("tick", ticked);
   
     const body = d3.select("#my_dataviz");
@@ -89,7 +89,7 @@ function ForceGraph({
         .attr("r", nodeRadius)
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
-        // .call(drag(simulation));
+        .call(drag(simulation));
   
     if (W) link.attr("stroke-width", ({index: i}) => W[i]);
     if (L) link.attr("stroke", ({index: i}) => L[i]);
