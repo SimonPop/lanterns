@@ -65,7 +65,7 @@ function ForceGraph({
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
   
     const simulation = d3.forceSimulation(nodes)
-        // .force("link", forceLink)
+        .force("link", forceLink)
         .force("node", forceNode)
         .force("radial", forceRadial)
         .force("charge", d3.forceCollide().radius(5).iterations(2))
@@ -161,5 +161,5 @@ chart = ForceGraph(onion, {
     linkStrokeWidth: l => Math.sqrt(l.value),
     width: 1600,
     height: 1600,
-    linkStrength: 10
+    linkStrength: 0
   })
