@@ -58,15 +58,16 @@ function ForceGraph({
 
     d3.forceRadial(100, 100)
 
-    // const forceNode = d3.forceManyBody();
-    const forceNode = d3.forceRadial(d => d.radius*10, 100, 100).strength(0.1);
+    const forceNode = d3.forceManyBody();
+    const forceRadial = d3.forceRadial(d =>(20-d.radius)*10, 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
   
     const simulation = d3.forceSimulation(nodes)
         // .force("link", forceLink)
-        .force("radial", forceNode)
+        .force("node", forceNode)
+        .force("radial", forceRadial)
         .force("charge", d3.forceCollide().radius(5).iterations(2))
         // .force("center",  d3.forceCenter())
         .on("tick", ticked);
