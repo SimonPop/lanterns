@@ -97,7 +97,7 @@ function ForceGraph({
       .data(nodes)
       .join("circle")
         .attr("r", nodeRadius)
-        .attr('fill', d => d.color)
+        .style('fill', d => d.color)
         // .attr('cx', d => d.x)
         // .attr('cy', d => d.y)
         .call(drag(simulation));
