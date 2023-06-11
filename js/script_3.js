@@ -66,6 +66,7 @@ function ForceGraph({
     const simulation = d3.forceSimulation(nodes)
         // .force("link", forceLink)
         .force("radial", forceNode)
+        .force("charge", d3.forceCollide().radius(5).iterations(2))
         // .force("center",  d3.forceCenter())
         .on("tick", ticked);
   
