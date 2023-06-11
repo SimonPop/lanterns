@@ -31,6 +31,7 @@ function ForceGraph({
     const N = d3.map(nodes, nodeId).map(intern);
     const X = d3.map(nodes, d => d.x).map(intern);
     const Y = d3.map(nodes, d => d.y).map(intern);
+    const RD = d3.map(nodes, d => d.radius).map(intern);
     const LS = d3.map(links, linkSource).map(intern);
     const LT = d3.map(links, linkTarget).map(intern);
     if (nodeTitle === undefined) nodeTitle = (_, i) => N[i];
@@ -40,7 +41,7 @@ function ForceGraph({
     const L = typeof linkStroke !== "function" ? null : d3.map(links, linkStroke);
   
     // Replace the input nodes and links with mutable objects for the simulation.
-    nodes = d3.map(nodes, (_, i) => ({id: N[i], x: X[i], y: Y[i]}));
+    nodes = d3.map(nodes, (_, i) => ({id: N[i], x: X[i], y: Y[i], radius: RD[i]}));
     links = d3.map(links, (_, i) => ({source: LS[i], target: LT[i]}));
   
     // Compute default domains.
@@ -57,7 +58,7 @@ function ForceGraph({
     d3.forceRadial(100, 100)
 
     // const forceNode = d3.forceManyBody();
-    const forceNode = d3.forceRadial(d => d.radius*100, 100, 100).strength(0.1);
+    const forceNode = d3.forceRadial(d => d.radius*10, 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
