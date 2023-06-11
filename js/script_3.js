@@ -63,9 +63,9 @@ function ForceGraph({
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
   
     const simulation = d3.forceSimulation(nodes)
-        .force("link", forceLink)
+        // .force("link", forceLink)
         .force("radial", forceNode)
-        .force("center",  d3.forceCenter())
+        // .force("center",  d3.forceCenter())
         .on("tick", ticked);
   
     const body = d3.select("#my_dataviz");
@@ -156,4 +156,5 @@ chart = ForceGraph(onion, {
     linkStrokeWidth: l => Math.sqrt(l.value),
     width: 1600,
     height: 1600,
+    linkStrength: 10
   })
