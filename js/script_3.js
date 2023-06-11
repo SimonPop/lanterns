@@ -32,6 +32,7 @@ function ForceGraph({
     const X = d3.map(nodes, d => d.x).map(intern);
     const Y = d3.map(nodes, d => d.y).map(intern);
     const RD = d3.map(nodes, d => d.radius).map(intern);
+    const COL = d3.map(nodes, d => d.color).map(intern);
     const LS = d3.map(links, linkSource).map(intern);
     const LT = d3.map(links, linkTarget).map(intern);
     if (nodeTitle === undefined) nodeTitle = (_, i) => N[i];
@@ -41,7 +42,7 @@ function ForceGraph({
     const L = typeof linkStroke !== "function" ? null : d3.map(links, linkStroke);
   
     // Replace the input nodes and links with mutable objects for the simulation.
-    nodes = d3.map(nodes, (_, i) => ({id: N[i], x: X[i], y: Y[i], radius: RD[i]}));
+    nodes = d3.map(nodes, (_, i) => ({id: N[i], x: X[i], y: Y[i], radius: RD[i], color: COL[i]}));
     links = d3.map(links, (_, i) => ({source: LS[i], target: LT[i]}));
   
     // Compute default domains.
@@ -96,8 +97,9 @@ function ForceGraph({
       .data(nodes)
       .join("circle")
         .attr("r", nodeRadius)
-        .attr('cx', d => d.x)
-        .attr('cy', d => d.y)
+        .attr('fill', d => d.color)
+        // .attr('cx', d => d.x)
+        // .attr('cy', d => d.y)
         .call(drag(simulation));
   
     if (W) link.attr("stroke-width", ({index: i}) => W[i]);
