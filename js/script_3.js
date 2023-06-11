@@ -57,7 +57,7 @@ function ForceGraph({
     d3.forceRadial(100, 100)
 
     // const forceNode = d3.forceManyBody();
-    const forceNode = d3.forceRadial(d => d.radius, 100, 100).strength(0.1);
+    const forceNode = d3.forceRadial(d => d.radius*100, 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
