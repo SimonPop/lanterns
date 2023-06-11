@@ -89,7 +89,7 @@ function ForceGraph({
         .attr("r", nodeRadius)
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
-        .call(drag(simulation));
+        // .call(drag(simulation));
   
     if (W) link.attr("stroke-width", ({index: i}) => W[i]);
     if (L) link.attr("stroke", ({index: i}) => L[i]);
