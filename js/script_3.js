@@ -51,13 +51,13 @@ function ForceGraph({
     // Construct the scales.
     const color = nodeGroup == null ? null : d3.scaleOrdinal(nodeGroups, colors);
   
+    // Function for creating curved paths
+    var line = d3.radialLine()
+    .curve(d3.curveBundle.beta(0.85))
+    .radius(function (d) { return d.y; })
+    .angle(function (d) { return d.x / 180 * Math.PI; });
+
     // Construct the forces.
-
-    // const forcePostionX = forceX
-    // const forcePostionX = forceY
-
-    d3.forceRadial(100, 100)
-
     const forceNode = d3.forceManyBody();
     const forceRadial = d3.forceRadial(d =>(20-d.radius)*10, 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
@@ -87,6 +87,7 @@ function ForceGraph({
         .attr("stroke-linecap", linkStrokeLinecap)
       .selectAll("line")
       .data(links)
+      .attr("d", line)
       .join("line");
   
     const node = svg.append("g")
