@@ -67,7 +67,7 @@ function ForceGraph({
 
     // Construct the forces.
     const forceNode = d3.forceManyBody();
-    const forceRadial = d3.forceRadial(d =>(200 - d.radius**3), 100, 100).strength(0.1);
+    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
@@ -129,25 +129,6 @@ function ForceGraph({
     	node.attr("transform", d => `translate(${d.x},${d.y})`);
   	});
 
-    function updateChart(limit) {
-      console.log(limit)
-  
-      node
-      .data(nodes.filter(n => n.radius > limit))
-      .transition()
-      .duration(1000)
-      .join("circle")
-      .attr("r", nodeRadius)
-      .style('fill', d => d.color)
-      .call(drag(simulation))
-        
-    }
-
-    d3.select("#mySlider").on("change", function(d){
-      selectedValue = this.value
-      updateChart(selectedValue)
-    })
-  
     function drag(simulation) {    
       function dragstarted(event) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
