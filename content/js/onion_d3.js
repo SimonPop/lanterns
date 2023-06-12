@@ -1,5 +1,13 @@
 function linkArc(d) {
   const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+
+  if (d.target.radius != d.source.radius) {
+      return `
+      M${d.target.x},${d.target.y}
+      L${d.source.x},${d.source.y}
+    `;
+	}
+
   return `
     M${d.source.x},${d.source.y}
     A${r},${r} 0 0,1 ${d.target.x},${d.target.y}
@@ -59,7 +67,7 @@ function ForceGraph({
 
     // Construct the forces.
     const forceNode = d3.forceManyBody();
-    const forceRadial = d3.forceRadial(d =>(200 - d.radius**3), 100, 100).strength(0.1);
+    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), 100, 100).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
@@ -85,7 +93,8 @@ function ForceGraph({
 		.selectAll("path")
 		.data(links)
 		.join("path")
-      	.style("stroke", d => d.color);
+    .style("stroke", d => d.color)
+    .style("stroke-dasharray", d => d.target.radius != d.source.radius ? ("3, 3") : null);
   
     const node = svg.append("g")
         .attr("fill", nodeFill)
@@ -95,7 +104,7 @@ function ForceGraph({
       .selectAll("circle")
       .data(nodes)
       .join("circle")
-        .attr("r", nodeRadius)
+        .attr("r", d => d.radius*1.2 + 5)
         .style('fill', d => d.color)
         .call(drag(simulation));
   
@@ -119,7 +128,7 @@ function ForceGraph({
     	link.attr("d", linkArc);
     	node.attr("transform", d => `translate(${d.x},${d.y})`);
   	});
-  
+
     function drag(simulation) {    
       function dragstarted(event) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
