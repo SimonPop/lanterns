@@ -65,9 +65,20 @@ function ForceGraph({
     // Construct the scales.
     const color = nodeGroup == null ? null : d3.scaleOrdinal(nodeGroups, colors);
 
+    const body = d3.select("#my_dataviz");
+
+    width = body.node().getBoundingClientRect().width
+    height = width
+
+    const svg = body.append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [-width / 2, -height / 2, width, height])
+        .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+
     // Construct the forces.
     const forceNode = d3.forceManyBody();
-    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), 100, 100).strength(0.1);
+    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), width/2, width/2).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
@@ -78,17 +89,6 @@ function ForceGraph({
         .force("radial", forceRadial)
         .force("charge", d3.forceCollide().radius(5).iterations(2))
         .on("tick", ticked);
-  
-    const body = d3.select("#my_dataviz");
-
-    width = body.node().getBoundingClientRect().width
-    height = width / 2
-
-    const svg = body.append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [-width / 2, -height / 2, width, height])
-        .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
 	const link = svg.append("g")
 		.attr("fill", "none")
