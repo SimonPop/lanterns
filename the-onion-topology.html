@@ -50,56 +50,66 @@
 <p><em>This article will explain what Onion Networks are and what sets them appart in the domain of network robustness.</em></p>
 <p>The onion structure is a kind of network topology adopted by some networks. </p>
 <p>This structure can be decomposed by radial layers hence its name.</p>
-<p>A layer is composed of same degee nodes having an overrepresentation of edges in between themselves.</p>
-<p>At the core can be found highest degree nodes, and degree decreases along the more we move to radially distant layers. </p>
+<p>A layer is composed of the same degee nodes having an overrepresentation of edges in between themselves.</p>
+<p>At the core can be found the highest degree nodes. From there, the degree decreases the more we move to radially distant layers. </p>
 <p>In summary: same degree nodes are likely to be connected to same degree nodes, creating this layering effect degree by degree.</p>
 <div id="my_dataviz"></div>
 
 <p>They make for a special kind of structure due to their particular robustness to failures and perturbations.</p>
 <h1>Robustness</h1>
-<p>Robustness for networks is often measured in terms of how difficult it is to split the graph appart when successively removing nodes. This comes from the <a href="https://en.wikipedia.org/wiki/Percolation_theory">Percolation Theory</a> study and designates a network as robust if most of its nodes remain accessible to each other in case of successive failures.</p>
-<p>In “most” of its nodes we have to understand, the nodes part of the main component: the biggest group still  connected.</p>
+<p>Robustness for networks is often measured in terms of how difficult it is to split the graph apart when successively removing nodes. This comes from the <a href="https://en.wikipedia.org/wiki/Percolation_theory">Percolation Theory</a> study and designates a network as robust if most of its nodes remain accessible to each other in case of successive failures.</p>
+<p>In “most” of its nodes we have to understand, the nodes are part of the main component: the biggest group still connected.</p>
 <h2>Scale-Free Networks</h2>
 <p>Onion networks are scale-free. They should therefore be compared to other scale-free networks.</p>
 <blockquote>
-<p>“<em>Scale-free networks are networks whose degree distribution follows a power law</em>.”  - <a href="https://en.wikipedia.org/wiki/Scale-free_network">Wikipedia</a> - Meaning they have few high degree nodes, and exponentially more lower degree nodes.</p>
+<p>“<em>Scale-free networks are networks whose degree distribution follows a power law</em>.”  - <a href="https://en.wikipedia.org/wiki/Scale-free_network">Wikipedia</a> - This means they have few high-degree nodes and exponentially more lower-degree nodes.</p>
 </blockquote>
-<p>For these categories of networks, a good property to have for being robust is <em>degree assertativity</em>: nodes like to be connected to same degree nodes.</p>
-<p>Although not all degree assertative graphs are onions, all onions are degree assertative. </p>
+<p>For these categories of networks, a good property to have for being robust is <em>degree assortativity</em>: nodes like to be connected to same-degree nodes.</p>
+<p>Although not all degree assortative graphs are onions, all onions are degree assortative. </p>
 <h2>Intuition</h2>
-<p>The reason behind the robustness of degree assertative graph can be intuitively seen by taking two opposite examples: </p>
+<p>The reason behind the robustness of degree assortative graph can be intuitively seen by taking two opposite examples: </p>
 <ol>
-<li>An onion graph: degree assertative.</li>
-<li>A decreasingly branching tree: not degree assertative.</li>
+<li>An onion graph: degree assortative.</li>
+<li>A decreasingly branching tree: not degree assortative.</li>
 </ol>
 <p><Figure: Tree vs Onion></p>
-<p>An attack, if selective, will likely target one of the higher degree nodes.</p>
-<p>Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower level nodes to this single node in order to reach the root of the tree (and come back down to communicate to any other node).</p>
+<p>An attack, if selective, will likely target one of the higher-degree nodes.</p>
+<p>Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).</p>
 <p><Figure: Tree with missing nodes></p>
-<p>Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower level nodes that used to be linked to the removed node can still connect to the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assertativity).</p>
+<p>Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).</p>
 <p><Figure: Onion with missing nodes></p>
 <p>We can thus conclude that onions definitively have nothing to do with trees.</p>
 <h2>Experiment</h2>
-<p>This intuition can be backed by experimenting on attacks, comparing the performance of onion graphs and random other scale-free graphs.</p>
+<p>This intuition can be backed by experimenting on attacks and comparing the performance of onion graphs and random other scale-free graphs.</p>
+<p>The experience setup starts from intact networks and successively removes node after node. All along that process, we count the number of nodes still connected to the <em>main component</em>: the largest cluster of nodes still in reach one of the other.</p>
+<p>The largest this component remains, the more robust the network structure is deemed. </p>
+<p>This result is highly dependent on the order in which we chose to target nodes. </p>
+<p>Generally, the node order strategy is chosen among four flavors:
+- Initial Node Degrees (ID): Target the highest node degree computed on the initial network.
+- Initial Node Betweenness (IB): Target the highest node betweenness computed on the initial network.
+- Recomputed Node Degrees (RD): Target the highest node degree computed on the current state network (after all the previous removals).
+- Recomputed Node Betweenness (RB): Target the highest node betweenness computed on the current state network (after all the previous removals).</p>
+<p>As demonstrated by (Wu &amp; Holme, 2011) in their paper, the Onion graph (orange) is almost as robust as a robustnesss optimized graph (purple), and way better than a similar degree scale-free network (green) for an RD strategy.</p>
+<p><img src="imgs/onion-topology/onion-vs-standard.PNG" alt= "Metro lines configurations" width="100%"></p>
 <h1>Generation</h1>
 <p>How to acquire this Onion topology is the subject of this last section.</p>
-<p>Initially, the topology has been discovered by optimizing for a robustness metric (Chan &amp; Akoglu, 2016; Louzada et al., 2013; Wu &amp; Holme, 2011). Starting from any graph, the algorithm swapped edges between nodes whenever that could bring an improvment in this metric. </p>
+<p>Initially, the topology has been discovered by optimizing for a robustness metric (Chan &amp; Akoglu, 2016; Louzada et al., 2013; Wu &amp; Holme, 2011). Starting from any graph, the algorithm swapped edges between nodes whenever that could bring an improvement in this metric. </p>
 <blockquote>
 <p>The robustness index formula follows: <div class="math">$$R = \frac{1}{N} \sum_{q=\frac{1}{N}} s(q)$$</div> with <span class="math">\(N\)</span>, the number of vertices, <span class="math">\(s(q)\)</span> is the fraction of vertices in the largest connected cluster after removing <span class="math">\(qN\)</span> vertices.</p>
 </blockquote>
 <p>The output of this process, for scale-free networks, systematically adopted the Onion topology.</p>
-<p>Therefore, a way to get an Onion structure, is to follow this optimization process.</p>
-<p>However, (Wu &amp; Holme, 2011) asked themselves whether there could be a more direct method to generate such graphs, and came up with the following algortihm.</p>
+<p>Therefore, a way to get an Onion structure is to follow this optimization process.</p>
+<p>However, (Wu &amp; Holme, 2011) asked themselves whether there could be a more direct method to generate such graphs, and came up with the following algorithm.</p>
 <p><em>Algorithm: Onion structured network generation.</em>   </p>
-<p>DEFINE a number N of nodes for the graph.<br>
+<p><strong>DEFINE a number N of nodes for the graph.<br>
 FOR each node, sample a degree <span class="math">\(d_i\)</span> from a distribution <span class="math">\(P (k) ∼ k^{−γ}\)</span>.<br>
 ASSIGN each node to its layer <span class="math">\(s_i\)</span> given its sampled degree.<br>
 FOR each node, create as many "stubs" as its degree <span class="math">\(d_i\)</span>. 
-WHILE independant "stubs" remain, connect two stubs at random with a probability <span class="math">\(\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}\)</span> with <span class="math">\(a\)</span> a control parameter, starting from lowest degree nodes.</p>
+WHILE independant "stubs" remain, connect two stubs at random with a probability <span class="math">\(\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}\)</span> with <span class="math">\(a\)</span> a control parameter, starting from lowest degree nodes.</strong></p>
 <h1>Conclusion</h1>
-<p>Onion structured is a particularily robust topology for scale-free networks.</p>
-<p>Such networks can be generated not only by optimizing an already existing structure, but from the ground up using the presented algorithm.</p>
-<p>It proves to resist well against traditional attacks and failures. These are usually focused towards high degree nodes. Although one could wonder what would happen in an attack designed specifically for this topology. What would happen with an attack focusing the inter-layer nodes in priority?</p>
+<p>Onion structure is a particularly robust topology for scale-free networks.</p>
+<p>Such networks can be generated not only by optimizing an already existing structure but from the ground up using the presented algorithm.</p>
+<p>It proves to resist well against traditional attacks and failures. These are usually focused on high-degree nodes. Although one could wonder what would happen in an attack designed specifically for this topology. What would happen with an attack focusing on the inter-layer nodes in priority?</p>
 <h1>References</h1>
 <p>Chan, H., &amp; Akoglu, L. (2016). Optimizing network robustness by edge rewiring : A general framework. Data Mining and Knowledge Discovery, 30(5), 1395‑1425. https://doi.org/10.1007/s10618-015-0447-5
 Louzada, V. H. P., Daolio, F., Herrmann, H. J., &amp; Tomassini, M. (2013). Smart Rewiring for Network Robustness. Journal of Complex Networks, 1(2), 150‑159. https://doi.org/10.1093/comnet/cnt010
