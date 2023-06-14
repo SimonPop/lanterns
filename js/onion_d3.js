@@ -81,6 +81,9 @@ function ForceGraph({
   
     const body = d3.select("#my_dataviz");
 
+    width = body.node().getBoundingClientRect().width
+    height = width / 2
+
     const svg = body.append("svg")
         .attr("width", width)
         .attr("height", height)
