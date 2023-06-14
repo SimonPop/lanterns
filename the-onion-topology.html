@@ -72,12 +72,18 @@
 <li>An onion graph: degree assortative.</li>
 <li>A decreasingly branching tree: not degree assortative.</li>
 </ol>
-<p><Figure: Tree vs Onion></p>
 <p>An attack, if selective, will likely target one of the higher-degree nodes.</p>
 <p>Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).</p>
-<p><Figure: Tree with missing nodes></p>
+<table style="width:100%">
+  <tr>
+    <td><img src="imgs/onion-topology/tree.png" alt= "Metro lines configurations" width="100%">
+    </td>
+    <td><img src="imgs/onion-topology/broken_tree.png" alt= "Metro lines configurations" width="100%">
+    </td>
+  </tr>
+</table>
+
 <p>Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).</p>
-<p><Figure: Onion with missing nodes></p>
 <p>We can thus conclude that onions definitively have nothing to do with trees.</p>
 <h2>Experiment</h2>
 <p>This intuition can be backed by experimenting on attacks and comparing the performance of onion graphs and random other scale-free graphs.</p>
