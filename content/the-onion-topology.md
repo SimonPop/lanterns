@@ -22,7 +22,7 @@ In summary: same degree nodes are likely to be connected to same degree nodes, c
 
 <figure>
 <div id="my_dataviz"></div>
-<figcaption>Fig 1. Onion Network</figcaption>
+<figcaption style="text-align: center;">Interactive onion network</figcaption>
 </figure>
 
 They make for a special kind of structure due to their particular robustness to failures and perturbations.
