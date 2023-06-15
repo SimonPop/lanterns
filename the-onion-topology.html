@@ -121,18 +121,13 @@
 <p>Therefore, a way to get an Onion structure is to follow this optimization process.</p>
 <p>However, (Wu &amp; Holme, 2011) asked themselves whether there could be a more direct method to generate such graphs, and came up with the following algorithm.</p>
 <p><em>Algorithm: Onion structured network generation.</em>   </p>
-<div style="font:'Courier New', monospace; border-left: 1px solid grey; padding: 15px;">
-DEFINE a number N of nodes for the graph. 
-
-FOR each node, sample a degree $d_i$ from a distribution $P (k) ∼ k^{−γ}$.  
-
-ASSIGN each node to its layer $s_i$ given its sampled degree.  
-
-FOR each node, create as many "stubs" as its degree $d_i$.   
-
-WHILE independant "stubs" remain, connect two stubs at random with a probability $\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}$ with $a$ a control parameter, starting from lowest degree nodes.
-</div>
-
+<h2>---</h2>
+<p>DEFINE a number N of nodes for the graph. </p>
+<p>FOR each node, sample a degree <span class="math">\(d_i\)</span> from a distribution <span class="math">\(P (k) ∼ k^{−γ}\)</span>.  </p>
+<p>ASSIGN each node to its layer <span class="math">\(s_i\)</span> given its sampled degree.  </p>
+<p>FOR each node, create as many "stubs" as its degree <span class="math">\(d_i\)</span>.   </p>
+<p>WHILE independant "stubs" remain, connect two stubs at random with a probability <span class="math">\(\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}\)</span> with <span class="math">\(a\)</span> a control parameter, starting from lowest degree nodes.</p>
+<h2>---</h2>
 <h1>Conclusion</h1>
 <p>Onion structure is a particularly robust topology for scale-free networks.</p>
 <p>Such networks can be generated not only by optimizing an already existing structure but from the ground up using the presented algorithm.</p>
