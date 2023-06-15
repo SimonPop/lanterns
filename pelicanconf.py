@@ -14,6 +14,7 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
+AUTHOR_BIO='Data Scientist and graph lover.'
 
 # Blogroll
 LINKS = (('GitHub', 'https://github.com/SimonPop'),
