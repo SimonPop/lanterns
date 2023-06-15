@@ -1,5 +1,5 @@
 Title: Network Robustness & Vulnerability
-Date: 2023-04-10
+Date: 2023-05-13
 Category: Network Science
 Tags: graph-robustness, theory
 Author: Simon Popelier
