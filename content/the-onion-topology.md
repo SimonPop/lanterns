@@ -20,7 +20,10 @@ At the core can be found the highest degree nodes. From there, the degree decrea
 
 In summary: same degree nodes are likely to be connected to same degree nodes, creating this layering effect degree by degree.
 
+<figure>
 <div id="my_dataviz"></div>
+<figcaption>Fig 1. Onion Network</figcaption>
+</figure>
 
 They make for a special kind of structure due to their particular robustness to failures and perturbations.
 
@@ -47,17 +50,31 @@ The reason behind the robustness of degree assortative graph can be intuitively 
 1. An onion graph: degree assortative.
 2. A decreasingly branching tree: not degree assortative.
 
-<Figure: Tree vs Onion>
-
 An attack, if selective, will likely target one of the higher-degree nodes.
 
 Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).
 
-<Figure: Tree with missing nodes>
+<table style="width:100%">
+  <tr>
+    <td><img src="imgs/onion-topology/tree.png" alt= "Tree example." width="100%">
+    </td>
+    <td><img src="imgs/onion-topology/broken_tree.png" alt= "Broken tree example." width="100%">
+    </td>
+  </tr>
+  <caption style="caption-side:bottom">Same tree before and after ID removal of a node.</caption>
+</table>
 
 Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).
 
-<Figure: Onion with missing nodes>
+<table style="width:100%">
+  <tr>
+    <td><img src="imgs/onion-topology/onion.png" alt= "Tree example." width="100%">
+    </td>
+    <td><img src="imgs/onion-topology/broken_onion.png" alt= "Broken tree example." width="100%">
+    </td>
+  </tr>
+  <caption style="caption-side:bottom">Same onion network before and after ID removal of a node.</caption>
+</table>
 
 We can thus conclude that onions definitively have nothing to do with trees.
 
@@ -79,7 +96,7 @@ Generally, the node order strategy is chosen among four flavors:
 
 As demonstrated by (Wu & Holme, 2011) in their paper, the Onion graph (orange) is almost as robust as a robustnesss optimized graph (purple), and way better than a similar degree scale-free network (green) for an RD strategy.
 
-<img src="imgs/onion-topology/onion-vs-standard.PNG" alt= "Metro lines configurations" width="100%">
+<img src="imgs/onion-topology/onion-vs-standard.PNG" alt= "Onion network robustness performance" width="100%">
 
 # Generation
 
