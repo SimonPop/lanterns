@@ -61,22 +61,22 @@
 <p>They make for a special kind of structure due to their particular robustness to failures and perturbations.</p>
 <h1>Robustness</h1>
 <p>Robustness for networks is often measured in terms of how difficult it is to split the graph apart when successively removing nodes. This comes from the <a href="https://en.wikipedia.org/wiki/Percolation_theory">Percolation Theory</a> study and designates a network as robust if most of its nodes remain accessible to each other in case of successive failures.</p>
-<p>In “most” of its nodes we have to understand, the nodes are part of the main component: the biggest group still connected.</p>
+<p>In “most” of its nodes we have to understand, the nodes are part of the main <a href="https://en.wikipedia.org/wiki/Component_(graph_theory)">component</a>: the biggest group still connected.</p>
 <h2>Scale-Free Networks</h2>
 <p>Onion networks are scale-free. They should therefore be compared to other scale-free networks.</p>
 <blockquote>
 <p>“<em>Scale-free networks are networks whose degree distribution follows a power law</em>.”  - <a href="https://en.wikipedia.org/wiki/Scale-free_network">Wikipedia</a> - This means they have few high-degree nodes and exponentially more lower-degree nodes.</p>
 </blockquote>
-<p>For these categories of networks, a good property to have for being robust is <em>degree assortativity</em>: nodes like to be connected to same-degree nodes.</p>
+<p>For these categories of networks, a good property to have for being robust is <em>degree <a href="https://en.wikipedia.org/wiki/Assortativity">assortativity</a></em>: nodes like to be connected to same-degree nodes.</p>
 <p>Although not all degree assortative graphs are onions, all onions are degree assortative. </p>
 <h2>Intuition</h2>
 <p>The reason behind the robustness of degree assortative graph can be intuitively seen by taking two opposite examples: </p>
 <ol>
 <li>An onion graph: degree assortative.</li>
-<li>A decreasingly branching tree: not degree assortative.</li>
+<li>A decreasingly branching <a href="https://en.wikipedia.org/wiki/Tree_(graph_theory)">tree</a>: not degree assortative.</li>
 </ol>
 <p>An attack, if selective, will likely target one of the higher-degree nodes.</p>
-<p>Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).</p>
+<p>Removing such a node in the tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).</p>
 <table style="width:100%">
   <tr>
     <td><img src="imgs/onion-topology/tree.png" alt= "Tree example." width="100%">
@@ -87,7 +87,7 @@
   <caption style="caption-side:bottom">Same tree before and after ID removal of a node.</caption>
 </table>
 
-<p>Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).</p>
+<p>Removing such a node in the onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).</p>
 <table style="width:100%">
   <tr>
     <td><img src="imgs/onion-topology/onion.png" alt= "Tree example." width="100%">
@@ -121,11 +121,13 @@
 <p>Therefore, a way to get an Onion structure is to follow this optimization process.</p>
 <p>However, (Wu &amp; Holme, 2011) asked themselves whether there could be a more direct method to generate such graphs, and came up with the following algorithm.</p>
 <p><em>Algorithm: Onion structured network generation.</em>   </p>
-<p><strong>DEFINE a number N of nodes for the graph.<br>
-FOR each node, sample a degree <span class="math">\(d_i\)</span> from a distribution <span class="math">\(P (k) ∼ k^{−γ}\)</span>.<br>
-ASSIGN each node to its layer <span class="math">\(s_i\)</span> given its sampled degree.<br>
-FOR each node, create as many "stubs" as its degree <span class="math">\(d_i\)</span>. 
-WHILE independant "stubs" remain, connect two stubs at random with a probability <span class="math">\(\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}\)</span> with <span class="math">\(a\)</span> a control parameter, starting from lowest degree nodes.</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">DEFINE</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="nv">N</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">nodes</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">graph</span>.<span class="w">  </span>
+<span class="k">FOR</span><span class="w"> </span><span class="nv">each</span><span class="w"> </span><span class="nv">node</span>,<span class="w"> </span><span class="nv">sample</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">degree</span><span class="w"> </span><span class="mh">$d</span><span class="nv">_i</span>$<span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">distribution</span><span class="w"> </span>$<span class="nv">P</span><span class="w"> </span><span class="ss">(</span><span class="nv">k</span><span class="ss">)</span><span class="w"> </span>∼<span class="w"> </span><span class="nv">k</span><span class="o">^</span>{−γ}$.<span class="w">  </span>
+<span class="nv">ASSIGN</span><span class="w"> </span><span class="nv">each</span><span class="w"> </span><span class="nv">node</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">its</span><span class="w"> </span><span class="nv">layer</span><span class="w"> </span>$<span class="nv">s_i</span>$<span class="w"> </span><span class="nv">given</span><span class="w"> </span><span class="nv">its</span><span class="w"> </span><span class="nv">sampled</span><span class="w"> </span><span class="nv">degree</span>.<span class="w">  </span>
+<span class="k">FOR</span><span class="w"> </span><span class="nv">each</span><span class="w"> </span><span class="nv">node</span>,<span class="w"> </span><span class="nv">create</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">many</span><span class="w"> </span><span class="s2">&quot;stubs&quot;</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">its</span><span class="w"> </span><span class="nv">degree</span><span class="w"> </span><span class="mh">$d</span><span class="nv">_i</span>$.<span class="w">   </span>
+<span class="k">WHILE</span><span class="w"> </span><span class="nv">independant</span><span class="w"> </span><span class="s2">&quot;stubs&quot;</span><span class="w"> </span><span class="nv">remain</span>,<span class="w"> </span><span class="k">connect</span><span class="w"> </span><span class="nv">two</span><span class="w"> </span><span class="nv">stubs</span><span class="w"> </span><span class="nv">at</span><span class="w"> </span><span class="k">random</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">probability</span><span class="w"> </span>$\<span class="nv">Pi_</span>{<span class="nv">ij</span>}<span class="w"> </span><span class="o">=</span><span class="w"> </span>\<span class="nv">frac</span>{<span class="mi">1</span>}{<span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">a</span><span class="o">|</span><span class="nv">s_i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">s_j</span><span class="o">|</span>}$<span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="mh">$a</span>$<span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">control</span><span class="w"> </span><span class="nv">parameter</span>,<span class="w"> </span><span class="nv">starting</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">lowest</span><span class="w"> </span><span class="nv">degree</span><span class="w"> </span><span class="nv">nodes</span>.
+</code></pre></div>
+
 <h1>Conclusion</h1>
 <p>Onion structure is a particularly robust topology for scale-free networks.</p>
 <p>Such networks can be generated not only by optimizing an already existing structure but from the ground up using the presented algorithm.</p>
