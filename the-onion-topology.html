@@ -53,7 +53,10 @@
 <p>A layer is composed of the same degee nodes having an overrepresentation of edges in between themselves.</p>
 <p>At the core can be found the highest degree nodes. From there, the degree decreases the more we move to radially distant layers. </p>
 <p>In summary: same degree nodes are likely to be connected to same degree nodes, creating this layering effect degree by degree.</p>
+<figure>
 <div id="my_dataviz"></div>
+<figcaption>Fig 1. Onion Network</figcaption>
+</figure>
 
 <p>They make for a special kind of structure due to their particular robustness to failures and perturbations.</p>
 <h1>Robustness</h1>
@@ -76,14 +79,25 @@
 <p>Removing such a node in the Tree instantly cuts the entire branch out of the main component. This is because of the hierarchical exclusivity that linked lower-level nodes to this single node to reach the root of the tree (and come back down to communicate to any other node).</p>
 <table style="width:100%">
   <tr>
-    <td><img src="imgs/onion-topology/tree.png" alt= "Metro lines configurations" width="100%">
+    <td><img src="imgs/onion-topology/tree.png" alt= "Tree example." width="100%">
     </td>
-    <td><img src="imgs/onion-topology/broken_tree.png" alt= "Metro lines configurations" width="100%">
+    <td><img src="imgs/onion-topology/broken_tree.png" alt= "Broken tree example." width="100%">
     </td>
   </tr>
+  <caption style="caption-side:bottom">Same tree before and after ID removal of a node.</caption>
 </table>
 
 <p>Removing such a node in the Onion does nothing like that. There is no hierarchical exclusivity: lower-level nodes that used to be linked to the removed node can still reach the core of the onion through pairs of the same layer still connected to the core, and accessible to them (thanks to assortativity).</p>
+<table style="width:100%">
+  <tr>
+    <td><img src="imgs/onion-topology/onion.png" alt= "Tree example." width="100%">
+    </td>
+    <td><img src="imgs/onion-topology/broken_onion.png" alt= "Broken tree example." width="100%">
+    </td>
+  </tr>
+  <caption style="caption-side:bottom">Same onion network before and after ID removal of a node.</caption>
+</table>
+
 <p>We can thus conclude that onions definitively have nothing to do with trees.</p>
 <h2>Experiment</h2>
 <p>This intuition can be backed by experimenting on attacks and comparing the performance of onion graphs and random other scale-free graphs.</p>
@@ -96,7 +110,7 @@
 - Recomputed Node Degrees (RD): Target the highest node degree computed on the current state network (after all the previous removals).
 - Recomputed Node Betweenness (RB): Target the highest node betweenness computed on the current state network (after all the previous removals).</p>
 <p>As demonstrated by (Wu &amp; Holme, 2011) in their paper, the Onion graph (orange) is almost as robust as a robustnesss optimized graph (purple), and way better than a similar degree scale-free network (green) for an RD strategy.</p>
-<p><img src="imgs/onion-topology/onion-vs-standard.PNG" alt= "Metro lines configurations" width="100%"></p>
+<p><img src="imgs/onion-topology/onion-vs-standard.PNG" alt= "Onion network robustness performance" width="100%"></p>
 <h1>Generation</h1>
 <p>How to acquire this Onion topology is the subject of this last section.</p>
 <p>Initially, the topology has been discovered by optimizing for a robustness metric (Chan &amp; Akoglu, 2016; Louzada et al., 2013; Wu &amp; Holme, 2011). Starting from any graph, the algorithm swapped edges between nodes whenever that could bring an improvement in this metric. </p>

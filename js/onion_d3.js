@@ -26,7 +26,6 @@ function ForceGraph({
     nodeStroke = "#fff", // node stroke color
     nodeStrokeWidth = 1.5, // node stroke width, in pixels
     nodeStrokeOpacity = 1, // node stroke opacity
-    nodeRadius = 10, // node radius, in pixels
     nodeStrength,
     linkSource = ({source}) => source, // given d in links, returns a node identifier string
     linkTarget = ({target}) => target, // given d in links, returns a node identifier string
@@ -69,8 +68,6 @@ function ForceGraph({
 
     width = body.node().getBoundingClientRect().width
     height = width
-
-    console.log("width: ", width);
 
     const svg = body.append("svg")
         .attr("width", width)
