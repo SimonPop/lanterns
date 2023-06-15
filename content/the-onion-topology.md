@@ -115,13 +115,19 @@ However, (Wu & Holme, 2011) asked themselves whether there could be a more direc
 
 *Algorithm: Onion structured network generation.*   
 
-```
-DEFINE a number N of nodes for the graph.  
+---
+
+DEFINE a number N of nodes for the graph. 
+
 FOR each node, sample a degree $d_i$ from a distribution $P (k) ∼ k^{−γ}$.  
+
 ASSIGN each node to its layer $s_i$ given its sampled degree.  
+
 FOR each node, create as many "stubs" as its degree $d_i$.   
+
 WHILE independant "stubs" remain, connect two stubs at random with a probability $\Pi_{ij} = \frac{1}{1 + a|s_i - s_j|}$ with $a$ a control parameter, starting from lowest degree nodes.
-```
+
+---
 
 # Conclusion
 
