@@ -70,18 +70,23 @@ function ForceGraph({
     width = body.node().getBoundingClientRect().width
     height = width
 
+    console.log("width: ", width);
+
     const svg = body.append("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [-width / 2, -height / 2, width, height])
-        .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+        .attr("style", "max-width: 100%; height: auto; height: intrinsic; outline: thin solid black;");
 
     // Construct the forces.
     const forceNode = d3.forceManyBody();
-    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), width/8, width/8).strength(0.1);
+    const forceRadial = d3.forceRadial(d =>(12**2 - d.radius**2), 0, 0).strength(0.1);
     const forceLink = d3.forceLink(links).id(({index: i}) => N[i]);
     if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
     if (linkStrength !== undefined) forceLink.strength(linkStrength);
+
+    console.log("forceRadial: ", forceRadial);
+    console.log("forceRadial: ", width/8, width/8);
   
     const simulation = d3.forceSimulation(nodes)
         .force("link", forceLink)
