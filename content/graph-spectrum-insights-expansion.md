@@ -6,11 +6,9 @@ Author: Simon Popelier
 Summary: How to interpret robustness from a Graph's spectrum.
 <!-- JS: onion_d3.js (bottom)  -->
 
-# Graph Spectrum Insights: Expansion English version
-
 The Spectrum of a graph is a concept as intimidating as it is informative. Although this mathematical tool may seem abstract at first glance, it provides elegant and synthetic access to the key properties of a graph.
 
-In this article, we'll look at how to intuitively understand the link between the Spectrum and Expansion of a graph, one of the attributes that measures robustness.
+In this article, we'll look at how to intuitively understand the link between the Spectrum and Expansion of a graph, one of the attributes that measures its robustness.
 
 ## What is the spectrum of a graph?
 
@@ -34,9 +32,9 @@ $$
 L^{sym}=D^{1/2}LD^{1/2}
 $$
 
-It is from this last matrix: $L^{sym}$ that we extract the spectrum of the graph.
+It is from this last matrix, $L^{sym}$ that we extract the spectrum of the graph.
 
-Its eigenvalues are ordered in ascending order, giving for a graph of degree $n$, the eigenvalues $\lambda_1 \leq \lambda_2 \leq ... \leq \lambda_n$: the Spectrum of the graph.
+Its eigenvalues are ordered in ascending order, giving for a graph of degree $n$, the eigenvalues $\lambda_1 \leq \lambda_2 \leq ... \leq \lambda_n$, the spectrum of the graph.
 
 ### Spectrum properties
 
@@ -48,9 +46,9 @@ $$
 \lambda = v^tLv = \sum_{(i,j)\in E, i<j}(v(i)-v(j))^2 
 $$
 
-with $v$ its associated eigenvector. Note that the eigenvalues of the Laplacian matrix are all positive or zero.
+With $v$ its associated eigenvector. Note that the eigenvalues of the Laplacian matrix are all positive or null.
 
-The smallest eigenvalue, $\lambda_1$, always equal to 0 and associated with the eigenvector $u = (1/n, ..., 1/n)$.
+The smallest eigenvalue, $\lambda_1$ always equals 0 and is associated with the eigenvector $u = (1/n, ..., 1/n)$.
 
 In this article, we'll try to provide some insights into the role played by $\lambda_2$ in the study of graph expansion.
 
@@ -66,11 +64,11 @@ The expansion of a graph is a sought-after property. It guarantees the absence o
 
 ## How does $\lambda_2$ tell you about the expansion of a graph?
 
-At first glance, it may be difficult to see why these values are connected to this or that property of the graph.
+At first glance, it may be difficult to see why these values are connected. Here are three different perspectives on the matter.
 
 ### Intuition n°1 - From component to bottleneck
 
-The first intuition we can give the reader is to think of the limiting case where $\lambda_2 = 0$.
+The first intuition we can give the reader is to think of the extreme case where $\lambda_2 = 0$.
 
 In this case, the graph is not fully [connected.](http://xn--connect-hya.il/) There are at least two components.
 
@@ -84,7 +82,7 @@ $$
 $$
 
 1. The sum can only be zero if each term is zero. This implies that in this vector, $v_2$, every pair of neighbors in the graph is assigned an equal value: $v_2(i) = v_2(j) \forall i \sim j$ .
-2. The vector $v_2$ must be orthogonal to $u$. This means it can't contain just one value; there must be at least two different values in $v_2$: $\exist_{j, i} \mid v_2(i) \neq v_2(j)$
+2. The vector $v_2$ must be orthogonal to $u$. This means it can't contain just one value; there must be at least two different values in $v_2$: $\exists_{j, i} \mid v_2(i) \neq v_2(j)$
 
 <img src="./imgs/spectrum-expansion/eigenvector-node.svg" alt= "" width="100%">
 
@@ -98,7 +96,7 @@ The first intuition is as follows:
 
 ### Intuition n°2 - Conductance
 
-A second intuition proposed here is based on the concept of [graph conductance](https://en.wikipedia.org/wiki/Conductance_(graph)).
+This second intuition is based on the concept of [graph conductance](https://en.wikipedia.org/wiki/Conductance_(graph)).
 
 This measure is given by the following formula:
 
@@ -106,11 +104,13 @@ $$
 \phi(G) = \min_{S, |S| \leq n/2} \frac{E(S, \bar{S})}{|S|}
 $$
 
-This involves separating the nodes of a graph into two: those belonging to the set $S$ and the others. The conductance is given for the distribution minimizing the number of edges passing from $S$ to the outside: $E(S, \bar{S})$, divided by the size of the set $|S|$.
+This involves separating the nodes of a graph into two: those belonging to the set $S$ and the others. The conductance is given for the set minimizing the number of edges passing from $S$ to the outside: $E(S, \bar{S})$, divided by the size of the set $|S|$.
 
-The larger $\phi(G)$ is, the harder it is to split the graph in two. The better connected it is.
+The larger $\phi(G)$, the harder it is to split the graph in two. Incidently, the better connected it is.
 
-But it is possible to connect $\lambda_2$ and $\phi(G)$. The easiest way to do this is to consider the case of a $d$-regular graph (each node is of degree $d$).
+There is a link between $\lambda_2$ and $\phi(G)$. 
+
+The easiest way to realize this is to consider the case of a $d$-regular graph (each node is of degree $d$).
 
 We therefore have:
 
@@ -118,7 +118,7 @@ $$
 \lambda_2 = min_{x \perp u} \frac{\sum_{i\sim j}(x_i - x_j)^2}{d \sum x_i^2}
 $$
 
-for $x \in \R^n$.
+for $x \in \mathbb{R}^n$.
 
 We then carry out a second simplification by discretizing the space of $x$. Consider that they take values in $\{0, 1\}^n$ only.
 
@@ -126,7 +126,7 @@ Under these conditions, we can equate the value 1 with membership of $S$ and 0 w
 
 $\sum_{i\sim j}(x_i - x_j)^2 = E(S, \bar{S})$ et $|S| = \sum x_i^2$
 
-The lower the conductance of a graph, the less well-connected it is. So we intuitively understand that the same applies to $\lambda_2$.
+The lower the conductance of a graph, the more disconnected it is. So we intuitively understand that the same applies to $\lambda_2$.
 
 <img src="./imgs/spectrum-expansion/conductance.svg" alt= "" width="100%">
 
@@ -134,7 +134,7 @@ This intuition is linked to the inequality of [Cheeger](https://en.wikipedia.org
 
 ### Intuition n°3 - Random Walks
 
-As explained in [this lecture](https://people.seas.harvard.edu/~salil/pseudorandomness/expanders.pdf), another way of looking at the connectivity of a graph is to study the [mixing time](https://en.wikipedia.org/wiki/Markov_chain_mixing_time) of its random walks. This is the order of magnitude required for a random walk to reach stationarity.
+As explained in [this lecture](https://people.seas.harvard.edu/~salil/pseudorandomness/expanders.pdf), another way of looking at the connectivity of a graph is to study the [mixing time](https://en.wikipedia.org/wiki/Markov_chain_mixing_time) of its random walks. It represents the order of magnitude required for a random walk to reach stationarity.
 
 A low mixing time means that stationarity is reached quickly. This implies that all the nodes in the graph can be reached quickly and that the graph is well connected.
 
@@ -142,37 +142,37 @@ A low mixing time means that stationarity is reached quickly. This implies that 
 
 This time, we need to look at a different matrix and therefore a different eigenvalue.
 
-This is the transition matrix, whose eigenvalues follow the following relationship:
+The transition matrix allows moving from one step of random walk to the next. Its eigenvalues follow this relationship with our initial Laplacian eigenvalues:
 
 $$
 \tilde{\lambda} = d(1 - \lambda)
 $$
 
-Note also that in our case, $\tilde{\lambda_2} = \max_{\pi}\frac{||\pi M - u||}{||\pi - u||}$.
+In our case, $\tilde{\lambda_2} = \max_{\pi}\frac{||\pi M - u||}{||\pi - u||}$.
 
 A small $\tilde{\lambda}$ implies the existence of at least one $\pi$ distribution that can rapidly approach $u$. This means that a random walk can quickly reach any node.
 
-- Indeed, $\pi M$ represents a random walk step.
+> Note that $\pi M$ represents a random walk step.
 
-A low $\tilde{\lambda}$ implies a high $\tilde{\lambda}$. This is in line with the idea that if this value is high, the graph has good connectivity.
+A low ${\lambda}$ value implies a high $\tilde{\lambda}$ one. This is in line with the idea that if this value is high, the graph has good connectivity.
 
-This idea is also linked to the concept of the [Spectral Gap](https://en.wikipedia.org/wiki/Spectral_gap) of a graph, an important concept in spectral graph theory.
+This idea is linked to the concept of the [spectral gap](https://en.wikipedia.org/wiki/Spectral_gap) of a graph, an important concept in spectral graph theory.
 
 
 
 ## Conclusion
 
-This article tries to demystify the graph spectrum, by giving several interpretations of one of these values: $\lambda_2$ and its link with expansion properties.
+This article tries to demystify the graph spectrum, by giving several interpretations of one of its values: $\lambda_2$ and its link with expansion properties.
 
-We gave 3 different intuitions to understand how a low value of $\lambda_2$ meant a low expansion:
+We gave 3 different perspetives to understand how a low value of $\lambda_2$ meant a low expansion:
 
 1. An intuition appealing to the special case $\lambda_2 = 0$.
 2. An intuition based on the conductance metric $\phi(G)$.
-3. An intuition based on Random Walks and their mixing time
+3. An intuition based on Random Walks and their mixing time.
 
-These are just a few intuitions for which we have placed ourselves in a particular framework. However, they are a good way of getting to grips with the issues involved in graph spectra and understanding how these values may relate to some of the graph's properties.
+These are just a few intuitions for which we have placed ourselves in particular cases. However, they are a good way of getting to grips with the issues involved in graph spectrum and understanding how these values may relate to some of the graph's properties.
 
-There are many other uses for the Spectrum, such as counting the components of the graph, its [co-spectrality](https://en.wikipedia.org/wiki/Isospectral) with another graph, a clustering or colorization method. All these uses give Spectral Graph Theory a fantastic practical application.
+There are many other uses for the spectrum, such as counting the components of the graph, its [co-spectrality](https://en.wikipedia.org/wiki/Isospectral) with another graph, a clustering or colorization method. All these uses give Spectral Graph Theory a fantastic practical application.
 
 ## Bibliography
 
