@@ -1,6 +1,6 @@
 AUTHOR = 'Simon Popelier'
 SITENAME = 'The Lanterns'
-SITEURL = ''
+SITEURL = 'https://simonpop.github.io/'
 
 PATH = 'content'
 
@@ -14,7 +14,7 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
-AUTHOR_BIO='Data Scientist and graph lover.'
+AUTHOR_BIO='Data Scientist and Graph Enthusiast.'
 
 # Blogroll
 LINKS = (('GitHub', 'https://github.com/SimonPop'),
