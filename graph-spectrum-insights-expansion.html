@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/style.css">
 	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
 	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
-	<link rel="stylesheet" type="text/css" href="/theme/css/pygments.css">
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/pygments.css">
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
 	<script src="https://d3js.org/d3.v7.min.js"></script>
-	<link href="/" type="application/atom+xml" rel="alternate" title="The Lanterns ATOM Feed" />
+	<link href="https://simonpop.github.io/" type="application/atom+xml" rel="alternate" title="The Lanterns ATOM Feed" />
 
 
 		<title>The Lanterns</title>
@@ -17,13 +17,13 @@
 <body>
 	<section id="sidebar">
 		<figure id="user_logo">
-            <a href=""><div class="logo">&nbsp;</div></a>
+            <a href="https://simonpop.github.io"><div class="logo">&nbsp;</div></a>
 		</figure>
 
 		<div class="user_meta">
-            <h1 id="user"><a href="" class="">Simon Popelier</a></h1>
+            <h1 id="user"><a href="https://simonpop.github.io" class="">Simon Popelier</a></h1>
 			<h2></h2>
-			<p class="bio">Data Scientist and graph lover.</p>
+			<p class="bio">Data Scientist and Graph Enthusiast.</p>
 			<ul>
 					<li><a href="https://github.com/SimonPop">GitHub</a></li>
 					<li><a href="https://www.linkedin.com/in/simon-popelier/">LinkedIn</a></li>
@@ -44,14 +44,13 @@
 	</header>
 	<article>
 		<h1 id="title">
-			<a href="/graph-spectrum-insights-expansion.html" rel="bookmark"
+			<a href="https://simonpop.github.io/graph-spectrum-insights-expansion.html" rel="bookmark"
 				title="Permalink to Graph Spectrum Insights: Expansion">Graph Spectrum Insights: Expansion</a>
 		</h1>
 		<!-- JS: onion_d3.js (bottom)  -->
 
-<h1>Graph Spectrum Insights: Expansion English version</h1>
 <p>The Spectrum of a graph is a concept as intimidating as it is informative. Although this mathematical tool may seem abstract at first glance, it provides elegant and synthetic access to the key properties of a graph.</p>
-<p>In this article, we'll look at how to intuitively understand the link between the Spectrum and Expansion of a graph, one of the attributes that measures robustness.</p>
+<p>In this article, we'll look at how to intuitively understand the link between the Spectrum and Expansion of a graph, one of the attributes that measures its robustness.</p>
 <h2>What is the spectrum of a graph?</h2>
 <h3>Spectrum and Laplacian Matrix</h3>
 <p>The Spectrum of a graph represents the set of eigenvalues of its normalized Laplacian matrix, a fundamental matrix in Spectral Graph Theory. This matrix is obtained in two stages.</p>
@@ -65,16 +64,16 @@ $$</div>
 <div class="math">$$
 L^{sym}=D^{1/2}LD^{1/2}
 $$</div>
-<p>It is from this last matrix: <span class="math">\(L^{sym}\)</span> that we extract the spectrum of the graph.</p>
-<p>Its eigenvalues are ordered in ascending order, giving for a graph of degree <span class="math">\(n\)</span>, the eigenvalues <span class="math">\(\lambda_1 \leq \lambda_2 \leq ... \leq \lambda_n\)</span>: the Spectrum of the graph.</p>
+<p>It is from this last matrix, <span class="math">\(L^{sym}\)</span> that we extract the spectrum of the graph.</p>
+<p>Its eigenvalues are ordered in ascending order, giving for a graph of degree <span class="math">\(n\)</span>, the eigenvalues <span class="math">\(\lambda_1 \leq \lambda_2 \leq ... \leq \lambda_n\)</span>, the spectrum of the graph.</p>
 <h3>Spectrum properties</h3>
 <p>The Laplacian matrix of a graph is symmetrical and real. Its eigenvectors are therefore mutually orthogonal, and its eigenvalues are real.</p>
 <p>It is useful to note that we can write:</p>
 <div class="math">$$
 \lambda = v^tLv = \sum_{(i,j)\in E, i&lt;j}(v(i)-v(j))^2 
 $$</div>
-<p>with <span class="math">\(v\)</span> its associated eigenvector. Note that the eigenvalues of the Laplacian matrix are all positive or zero.</p>
-<p>The smallest eigenvalue, <span class="math">\(\lambda_1\)</span>, always equal to 0 and associated with the eigenvector <span class="math">\(u = (1/n, ..., 1/n)\)</span>.</p>
+<p>With <span class="math">\(v\)</span> its associated eigenvector. Note that the eigenvalues of the Laplacian matrix are all positive or null.</p>
+<p>The smallest eigenvalue, <span class="math">\(\lambda_1\)</span> always equals 0 and is associated with the eigenvector <span class="math">\(u = (1/n, ..., 1/n)\)</span>.</p>
 <p>In this article, we'll try to provide some insights into the role played by <span class="math">\(\lambda_2\)</span> in the study of graph expansion.</p>
 <p><img src="./imgs/spectrum-expansion/eigenvectors.svg" alt= "" width="100%"></p>
 <h2>Graph Expansion</h2>
@@ -82,9 +81,9 @@ $$</div>
 <p><img src="./imgs/spectrum-expansion/exp_vs_non_exp.svg" alt= "" width="100%"></p>
 <p>The expansion of a graph is a sought-after property. It guarantees the absence of bottlenecks in a graph and its robustness. This is the case, for example, in Graph Neural Networks research <a href="http://arxiv.org/abs/2210.02997">(Deac, Lackenby, and Veličković 2022)</a> to improve information propagation.</p>
 <h2>How does <span class="math">\(\lambda_2\)</span> tell you about the expansion of a graph?</h2>
-<p>At first glance, it may be difficult to see why these values are connected to this or that property of the graph.</p>
+<p>At first glance, it may be difficult to see why these values are connected. Here are three different perspectives on the matter.</p>
 <h3>Intuition n°1 - From component to bottleneck</h3>
-<p>The first intuition we can give the reader is to think of the limiting case where <span class="math">\(\lambda_2 = 0\)</span>.</p>
+<p>The first intuition we can give the reader is to think of the extreme case where <span class="math">\(\lambda_2 = 0\)</span>.</p>
 <p>In this case, the graph is not fully <a href="http://xn--connect-hya.il/">connected.</a> There are at least two components.</p>
 <blockquote>
 <p>In fact, it's possible to count the exact number of graph components by counting the number of eigenvalues equal to 0.</p>
@@ -95,7 +94,7 @@ $$</div>
 $$</div>
 <ol>
 <li>The sum can only be zero if each term is zero. This implies that in this vector, <span class="math">\(v_2\)</span>, every pair of neighbors in the graph is assigned an equal value: <span class="math">\(v_2(i) = v_2(j) \forall i \sim j\)</span> .</li>
-<li>The vector <span class="math">\(v_2\)</span> must be orthogonal to <span class="math">\(u\)</span>. This means it can't contain just one value; there must be at least two different values in <span class="math">\(v_2\)</span>: <span class="math">\(\exist_{j, i} \mid v_2(i) \neq v_2(j)\)</span></li>
+<li>The vector <span class="math">\(v_2\)</span> must be orthogonal to <span class="math">\(u\)</span>. This means it can't contain just one value; there must be at least two different values in <span class="math">\(v_2\)</span>: <span class="math">\(\exists_{j, i} \mid v_2(i) \neq v_2(j)\)</span></li>
 </ol>
 <p><img src="./imgs/spectrum-expansion/eigenvector-node.svg" alt= "" width="100%"></p>
 <p>We therefore conclude from 1. and 2. that there must be at least two groups of values which are not adjacent to each other. At least two components.</p>
@@ -105,51 +104,52 @@ $$</div>
 </blockquote>
 <p><img src="./imgs/spectrum-expansion/frise_lambda.svg" alt= "" width="100%"></p>
 <h3>Intuition n°2 - Conductance</h3>
-<p>A second intuition proposed here is based on the concept of <a href="https://en.wikipedia.org/wiki/Conductance_(graph)">graph conductance</a>.</p>
+<p>This second intuition is based on the concept of <a href="https://en.wikipedia.org/wiki/Conductance_(graph)">graph conductance</a>.</p>
 <p>This measure is given by the following formula:</p>
 <div class="math">$$
 \phi(G) = \min_{S, |S| \leq n/2} \frac{E(S, \bar{S})}{|S|}
 $$</div>
-<p>This involves separating the nodes of a graph into two: those belonging to the set <span class="math">\(S\)</span> and the others. The conductance is given for the distribution minimizing the number of edges passing from <span class="math">\(S\)</span> to the outside: <span class="math">\(E(S, \bar{S})\)</span>, divided by the size of the set <span class="math">\(|S|\)</span>.</p>
-<p>The larger <span class="math">\(\phi(G)\)</span> is, the harder it is to split the graph in two. The better connected it is.</p>
-<p>But it is possible to connect <span class="math">\(\lambda_2\)</span> and <span class="math">\(\phi(G)\)</span>. The easiest way to do this is to consider the case of a <span class="math">\(d\)</span>-regular graph (each node is of degree <span class="math">\(d\)</span>).</p>
+<p>This involves separating the nodes of a graph into two: those belonging to the set <span class="math">\(S\)</span> and the others. The conductance is given for the set minimizing the number of edges passing from <span class="math">\(S\)</span> to the outside: <span class="math">\(E(S, \bar{S})\)</span>, divided by the size of the set <span class="math">\(|S|\)</span>.</p>
+<p>The larger <span class="math">\(\phi(G)\)</span>, the harder it is to split the graph in two. Incidently, the better connected it is.</p>
+<p>There is a link between <span class="math">\(\lambda_2\)</span> and <span class="math">\(\phi(G)\)</span>. </p>
+<p>The easiest way to realize this is to consider the case of a <span class="math">\(d\)</span>-regular graph (each node is of degree <span class="math">\(d\)</span>).</p>
 <p>We therefore have:</p>
 <div class="math">$$
 \lambda_2 = min_{x \perp u} \frac{\sum_{i\sim j}(x_i - x_j)^2}{d \sum x_i^2}
 $$</div>
-<p>for <span class="math">\(x \in \R^n\)</span>.</p>
+<p>for <span class="math">\(x \in \mathbb{R}^n\)</span>.</p>
 <p>We then carry out a second simplification by discretizing the space of <span class="math">\(x\)</span>. Consider that they take values in <span class="math">\(\{0, 1\}^n\)</span> only.</p>
 <p>Under these conditions, we can equate the value 1 with membership of <span class="math">\(S\)</span> and 0 with exclusion from the set. With this interpretation, we have the relationship between <span class="math">\(\lambda_2\)</span> and <span class="math">\(\phi(G)\)</span> with :</p>
 <p><span class="math">\(\sum_{i\sim j}(x_i - x_j)^2 = E(S, \bar{S})\)</span> et <span class="math">\(|S| = \sum x_i^2\)</span></p>
-<p>The lower the conductance of a graph, the less well-connected it is. So we intuitively understand that the same applies to <span class="math">\(\lambda_2\)</span>.</p>
+<p>The lower the conductance of a graph, the more disconnected it is. So we intuitively understand that the same applies to <span class="math">\(\lambda_2\)</span>.</p>
 <p><img src="./imgs/spectrum-expansion/conductance.svg" alt= "" width="100%"></p>
 <p>This intuition is linked to the inequality of <a href="https://en.wikipedia.org/wiki/Cheeger_constant_(graph_theory)">Cheeger</a>, fundamental in the spectral theory of Graphs. More details can be found in this <a href="https://homes.cs.washington.edu/~shayan/courses/approx/adv-approx-17.pdf">lecture by Shayan Oveis Gharan</a>.</p>
 <h3>Intuition n°3 - Random Walks</h3>
-<p>As explained in <a href="https://people.seas.harvard.edu/~salil/pseudorandomness/expanders.pdf">this lecture</a>, another way of looking at the connectivity of a graph is to study the <a href="https://en.wikipedia.org/wiki/Markov_chain_mixing_time">mixing time</a> of its random walks. This is the order of magnitude required for a random walk to reach stationarity.</p>
+<p>As explained in <a href="https://people.seas.harvard.edu/~salil/pseudorandomness/expanders.pdf">this lecture</a>, another way of looking at the connectivity of a graph is to study the <a href="https://en.wikipedia.org/wiki/Markov_chain_mixing_time">mixing time</a> of its random walks. It represents the order of magnitude required for a random walk to reach stationarity.</p>
 <p>A low mixing time means that stationarity is reached quickly. This implies that all the nodes in the graph can be reached quickly and that the graph is well connected.</p>
 <p><img src="./imgs/spectrum-expansion/mixing-time.svg" alt= "" width="100%"></p>
 <p>This time, we need to look at a different matrix and therefore a different eigenvalue.</p>
-<p>This is the transition matrix, whose eigenvalues follow the following relationship:</p>
+<p>The transition matrix allows moving from one step of random walk to the next. Its eigenvalues follow this relationship with our initial Laplacian eigenvalues:</p>
 <div class="math">$$
 \tilde{\lambda} = d(1 - \lambda)
 $$</div>
-<p>Note also that in our case, <span class="math">\(\tilde{\lambda_2} = \max_{\pi}\frac{||\pi M - u||}{||\pi - u||}\)</span>.</p>
+<p>In our case, <span class="math">\(\tilde{\lambda_2} = \max_{\pi}\frac{||\pi M - u||}{||\pi - u||}\)</span>.</p>
 <p>A small <span class="math">\(\tilde{\lambda}\)</span> implies the existence of at least one <span class="math">\(\pi\)</span> distribution that can rapidly approach <span class="math">\(u\)</span>. This means that a random walk can quickly reach any node.</p>
-<ul>
-<li>Indeed, <span class="math">\(\pi M\)</span> represents a random walk step.</li>
-</ul>
-<p>A low <span class="math">\(\tilde{\lambda}\)</span> implies a high <span class="math">\(\tilde{\lambda}\)</span>. This is in line with the idea that if this value is high, the graph has good connectivity.</p>
-<p>This idea is also linked to the concept of the <a href="https://en.wikipedia.org/wiki/Spectral_gap">Spectral Gap</a> of a graph, an important concept in spectral graph theory.</p>
+<blockquote>
+<p>Note that <span class="math">\(\pi M\)</span> represents a random walk step.</p>
+</blockquote>
+<p>A low <span class="math">\({\lambda}\)</span> value implies a high <span class="math">\(\tilde{\lambda}\)</span> one. This is in line with the idea that if this value is high, the graph has good connectivity.</p>
+<p>This idea is linked to the concept of the <a href="https://en.wikipedia.org/wiki/Spectral_gap">spectral gap</a> of a graph, an important concept in spectral graph theory.</p>
 <h2>Conclusion</h2>
-<p>This article tries to demystify the graph spectrum, by giving several interpretations of one of these values: <span class="math">\(\lambda_2\)</span> and its link with expansion properties.</p>
-<p>We gave 3 different intuitions to understand how a low value of <span class="math">\(\lambda_2\)</span> meant a low expansion:</p>
+<p>This article tries to demystify the graph spectrum, by giving several interpretations of one of its values: <span class="math">\(\lambda_2\)</span> and its link with expansion properties.</p>
+<p>We gave 3 different perspetives to understand how a low value of <span class="math">\(\lambda_2\)</span> meant a low expansion:</p>
 <ol>
 <li>An intuition appealing to the special case <span class="math">\(\lambda_2 = 0\)</span>.</li>
 <li>An intuition based on the conductance metric <span class="math">\(\phi(G)\)</span>.</li>
-<li>An intuition based on Random Walks and their mixing time</li>
+<li>An intuition based on Random Walks and their mixing time.</li>
 </ol>
-<p>These are just a few intuitions for which we have placed ourselves in a particular framework. However, they are a good way of getting to grips with the issues involved in graph spectra and understanding how these values may relate to some of the graph's properties.</p>
-<p>There are many other uses for the Spectrum, such as counting the components of the graph, its <a href="https://en.wikipedia.org/wiki/Isospectral">co-spectrality</a> with another graph, a clustering or colorization method. All these uses give Spectral Graph Theory a fantastic practical application.</p>
+<p>These are just a few intuitions for which we have placed ourselves in particular cases. However, they are a good way of getting to grips with the issues involved in graph spectrum and understanding how these values may relate to some of the graph's properties.</p>
+<p>There are many other uses for the spectrum, such as counting the components of the graph, its <a href="https://en.wikipedia.org/wiki/Isospectral">co-spectrality</a> with another graph, a clustering or colorization method. All these uses give Spectral Graph Theory a fantastic practical application.</p>
 <h2>Bibliography</h2>
 <ol>
 <li>Deac, Andreea, Marc Lackenby, et Petar Veličković. 2022. « Expander Graph Propagation ». http://arxiv.org/abs/2210.02997</li>
@@ -222,15 +222,15 @@ $$</div>
 
 		<div id="article_meta">
 				Category:
-					<a href="/category/graph-theory.html">Graph Theory</a>
+					<a href="https://simonpop.github.io/category/graph-theory.html">Graph Theory</a>
 				<br />Tags:
-					<a href="/tag/graph-robustness.html">graph-robustness</a>
-					<a href="/tag/theory.html">theory</a>
+					<a href="https://simonpop.github.io/tag/graph-robustness.html">graph-robustness</a>
+					<a href="https://simonpop.github.io/tag/theory.html">theory</a>
 		</div>
 	</article>
 
 	<footer>
-		<a href="/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
+		<a href="https://simonpop.github.io/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
 	</footer>
 
 
