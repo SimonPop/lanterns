@@ -1,5 +1,5 @@
 AUTHOR = 'Simon Popelier'
-SITENAME = 'The Lanterns'
+SITENAME = 'Simon Popelier'
 SITEURL = 'https://simonpop.github.io/'
 
 PATH = 'content'
@@ -34,7 +34,7 @@ THEME = 'themes/svbtle'
 OUTPUT_PATH = 'output'
 
 STATIC_PATHS = ['imgs', 'extra']
-EXTRA_PATH_METADATA = {'extra/lantern.ico': {'path': 'favicon.ico'}}
+EXTRA_PATH_METADATA = {'extra/whale.ico': {'path': 'favicon.ico'}}
 
 PLUGIN_PATHS = ['plugins']
 PLUGINS = ['pelican-js', 'render_math'] # You may have more plugins
