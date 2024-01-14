@@ -97,7 +97,11 @@ This is the case with interpretability analyses, which enable us to understand w
 
 In the case of the Enformer model, we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.
 
-<illustration attention matrix>
+<figure>
+    <img src="./imgs/genomic-fundational-model/nucleotide_attention.png" alt= "Onion graph" width="100%">
+    <figcaption style="text-align: center;">Last layer attention matrix in Nucleotide Transformer inference on a hundred token from GRCh38 chromosome 11.</figcaption>
+</figure>
+
 
 ## Adaptation
 
