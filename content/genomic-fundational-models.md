@@ -1,5 +1,5 @@
 Title: Network Robustness & Vulnerability
-Date: 2023-05-13
+Date: 2024-01-15
 Category: Network Science
 Tags: graph-robustness, theory
 Author: Simon Popelier
@@ -105,7 +105,7 @@ It can also be used in reverse to understand the mechanisms it models and extrap
 
 Interpretability analyses help understanding which sequences work in cores with others. Attention or gradient interpretability analyses can be used in this context.
 
-In the case of the Enformer model [(Avsec et al. 2021)](https://www.nature.com/articles/s41592-021-01252-x) , we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.
+In the case of the Enformer model [(Avsec et al. 2021)](https://www.nature.com/articles/s41592-021-01252-x), we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.
 
 <figure>
     <img src="./imgs/genomic-fundational-model/nucleotide_attention.png" alt= "Onion graph" width="100%">
