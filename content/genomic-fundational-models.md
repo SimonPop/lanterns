@@ -7,13 +7,15 @@ Summary: Overview of vulnerabilities of networks to different attacks.
 
 # Introduction
 
-Foundation models are a common feature of language modeling. Architectures such as BERT and GPT have proved themselves over the last years.
+Foundation models are a common feature of language modeling. Architectures such as BERT and GPT have proved themselves over the last years as generalist families of models able to solve a wide range of problems.
 
-Inspired by this work, several research projects are attempting to apply the same ideas to a new type of data: DNA sequences.
+Inspired by this work, several research projects are attempting to apply the same ideas to another type of data: DNA sequences.
 
 # From text to DNA
 
-One may ask why using NLP-born techniques in the field of genomics relevant. This is due both to the nature of the task as well as the availability of data to perform it. 
+One may ask why using NLP-born techniques in the field of genomics is relevant. 
+
+This is due both to the nature of the task as well as the availability of data to perform it. 
 
 ## The nucleic acid sequence
 
@@ -21,17 +23,17 @@ One of the main components of DNA is its nucleotide sequence.
 
 This sequence of molecules, called nucleotides, can take one of 4 forms (bases): Adenine, Thymine, Cytosine and Guanine.
 
-There are thus many similarities with NLP. It's tempting to draw an analogy between nucleotides and the words of a sentence, DNA sequences and sentences or paragraphs.
+It is then tempting to draw an analogy between a chain of nucleotides and the words of a sentence, DNA sequences and sentences or paragraphs.
 
-If the form corresponds, so does the substance. Indeed, nucleotide sequences are particularly informative about the function of different biological processes. If decoding a text enables us to understand its message, decoding a DNA sequence enables us to derive numerous biological results.
+If the form corresponds, so does the substance. Indeed, nucleotide sequences are particularly informative about the function of different biological processes. If decoding a text enables us to understand its message, decoding a DNA sequence helps deriving numerous biological results.
 
 ## The DNA corpus
 
-So the idea of applying the methods developed in the field of NLP is particularly relevant to DNA sequences. But are the conditions right for this to work?
+So the idea of applying the methods developed in the field of NLP is particularly relevant to DNA sequences. But are the conditions right for it to work?
 
-For one thing, DNA sequences are long. Very long. On the other, they are diverse. The human genome alone is composed of 3 billion nucleotide pairs.
+For one thing, DNA sequences are long. Very long. On the other, they are diverse. The human genome alone is composed of about 3 billion nucleotide pairs.
 
-On the other hand, it has been empirically demonstrated that the deductions that can be drawn from DNA sequences are partly transferable from one species to another. This means that it is possible to train a model intended for the study of several species together or to train a model intended for one species in particular with the help of knowledge acquired from others.
+On the other hand, it has been empirically demonstrated that the deductions that can be drawn from DNA sequences are partly transferable from one species to another. This means that it is possible to train a model intended for the study of several species together or to train a model intended for one species in particular with the help of knowledge acquired from others. The Nucleotide Transformer [(Dalla-Torre et al. 2023)](https://www.biorxiv.org/content/10.1101/2023.01.11.523679v1) proposes for a multispecies model trained on 850 different species at once. 
 
 The available corpus is immense, enabling the use not only of NLP techniques but LLMs in particular. (c.f. https://stanford-cs329s.github.io/)
 
@@ -41,7 +43,7 @@ The available corpus is immense, enabling the use not only of NLP techniques but
 
 The founding principle of this type of model is unsupervised training. Even more so than in NLP, the acquisition of labeled data in biology is particularly costly in terms of time and resources. It is therefore particularly beneficial to be able to bypass it.
 
-The results (Dalla-Torre et al. 2023) show that the gain produced by access to a much larger corpus enables us to gain in performance without the need for labels.
+The results [(Dalla-Torre et al. 2023)](https://www.biorxiv.org/content/10.1101/2023.01.11.523679v1) show that the gain produced by access to a much larger corpus enables us to gain in performance without the need for labels.
 
 In this way, the methods used for learning are based on those of unsupervised NLP, such as Next Sentence Prediction, Masked Language Models and Next Token Prediction.
 
@@ -49,11 +51,14 @@ In this way, the methods used for learning are based on those of unsupervised NL
 
 In NLP, advanced tokenization techniques such as BPE or WordPiece have been developed.
 
-Today, tokenization of DNA sequence models relies on *k*-mers, fixed-length sequences of *k* nucleotides.
+Today, tokenization of DNA sequence models relies on [*k*-mers](https://en.wikipedia.org/wiki/K-mer), fixed-length sequences of *k* nucleotides.
 
-These often perform well and can be paralleled by the 3-nucleotide sequences (3-mers) that form codons, the units used to form proteins.
+These often perform well since related to biological concepts such as codons, sequences of 3 nucleotides that map to amino-acids and are a subset of 3-mers (see [k=3](https://en.wikipedia.org/wiki/K-mer#k_=_3)). It is often said that the frequency of *k*-mers in a genomic region is akin to a signature. 
 
-<illustration k-mers>
+<figure>
+    <img src="./imgs/genomic-fundational-model/k_mers.jpg" alt= "Onion graph" width="100%">
+    <figcaption style="text-align: center;">Illustration of the 6-merization of a sequence of 12 nucleotide in a overlapping and non-overlapping fashion.</figcaption>
+</figure>
 
 ## Architectures
 
@@ -61,17 +66,17 @@ These often perform well and can be paralleled by the 3-nucleotide sequences (3-
 
 The majority of architectures are based on those that have proved their worth in NLP, namely BERT and GPT derivatives.
 
-Architectures based on CNNs and RNNs have given way to Transformers.
+Architectures based on CNNs and RNNs have given way to Transformers. 
 
-Other Transformer architectures, such as expert mixtures, are certainly conceivable.
+Since sequences of DNA can be influenced by far away other sequences, models allowing long-range interactions like Enformer [(Avsec et al. 2021)](https://www.nature.com/articles/s41592-021-01252-x) shine the most. 
 
-Models using State Space Modelling architectures may also emerge in the near future.
+Other Transformer architectures, such as expert mixtures, or completely different architecture like State Space Models are likely to emerge in the near future.
 
 ### Positional Encodings
 
 Similarly, there are PE techniques such as rotary embeddings and AliBi.
 
-However, it is quite possible that specific methods for DNA sequences will emerge over time. Indeed, the physical structure of DNA sequences plays an important role in inter-sequence interactions (Fudenberg, Kelley, et Pollard 2020).
+However, it is quite possible that specific methods for DNA sequences will emerge over time. Indeed, the physical structure of DNA sequences plays an important role in inter-sequence interactions [(Fudenberg, Kelley, et Pollard 2020)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8211359/).
 
 # Applications
 
@@ -80,6 +85,11 @@ While the use of a model that knows how to manipulate the words in a sentence ma
 ## Uses
 
 A model based on DNA sequences can be used in a variety of ways.
+
+<figure>
+    <img src="./imgs/genomic-fundational-model/usages.jpg" alt= "Onion graph" width="100%">
+    <figcaption style="text-align: center;">Different usages of a same fundation model.</figcaption>
+</figure>
 
 ### Direct usage
 
@@ -91,11 +101,11 @@ The model can also be used to compare two different sequences. This is the case 
 
 ### Backward usage
 
-It can also be used in reverse to understand the mechanisms it models and extrapolate them to real mechanisms. In fact, these remain unknown to scientists, so such a model can be used to explore a vast space at low cost.
+It can also be used in reverse to understand the mechanisms it models and extrapolate them to real mechanisms. Such a model can be used to explore a vast space at low cost, performing large scale *in silico* experiments.
 
-This is the case with interpretability analyses, which enable us to understand which sequences work in cores with others. Attention or gradient interpretability analyses can be used in this context.
+Interpretability analyses help understanding which sequences work in cores with others. Attention or gradient interpretability analyses can be used in this context.
 
-In the case of the Enformer model, we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.
+In the case of the Enformer model [(Avsec et al. 2021)](https://www.nature.com/articles/s41592-021-01252-x) , we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.
 
 <figure>
     <img src="./imgs/genomic-fundational-model/nucleotide_attention.png" alt= "Onion graph" width="100%">
@@ -117,7 +127,7 @@ The most effective methods, however, consist in allowing the entire model to ada
 
 ### Zero-Shot learning
 
-However, it is possible to use a foundation model without even specializing it. These techniques are called zero-shot learning. This is the case, for example, when a variation hazard score (SNV) is extracted directly from the various MLM task predictions (Benegas, Batra, and Song 2023).
+However, it is possible to use a foundation model without even specializing it. These techniques are called zero-shot learning. This is the case, for example, when a variation hazard score (SNV) is extracted directly from the various MLM task predictions like the Genomic Pre-trained Network score from [(Benegas, Batra, and Song 2023)](https://www.biorxiv.org/content/10.1101/2022.08.22.504706v2).
 
 <illustration du gene score>
 
@@ -131,7 +141,12 @@ On the one hand, the field is lagging behind the latest advances in LLMs. Each o
 
 On the other hand, it is possible to study further how to make these models good specifically in their domain.
 
-What's more, as the field is still in its infancy, it lacks benchmarks and fully mature datasets. As a result, numerous papers have been published on these subjects.
+What's more, as the topic is still in its infancy, it lacks benchmarks and fully mature datasets. As a result, numerous papers have been published on these subjects. For example, the AgroNT paper [(Mendoza-Revilla et al. 2023)](https://www.biorxiv.org/content/10.1101/2023.10.24.563624v1) comes with its own new Plants Genomic Benchmark.
+
+# Conclusion
+
+The concept of fundation model has successfully transfered to the genomics field. It currently relies on the same transformer models that have succeeded in the NLP domain. Yet it is still at its infancy, and many biology specific models are yet to be developped. Check the [(Consens et al. 2023) overview paper](https://arxiv.org/abs/2311.07621) to learn more about the topic! 
+
 
 # References
 
