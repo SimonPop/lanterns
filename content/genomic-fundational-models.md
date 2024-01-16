@@ -12,7 +12,7 @@ Foundation models are a common feature of language modeling. Architectures such 
 
 Inspired by this work, several research projects are attempting to apply the same ideas to another type of data: DNA sequences.
 
-<figure>
+<figure style="padding-left: 0px;margin-left: 0px;">
 <div id="my_dataviz"></div>
 <figcaption style="text-align: center;">Interactive nucleotide attention</figcaption>
 </figure>
