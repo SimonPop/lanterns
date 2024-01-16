@@ -14,7 +14,7 @@ Inspired by this work, several research projects are attempting to apply the sam
 
 <figure style="padding-left: 0px;margin-left: 0px;">
 <div id="my_dataviz"></div>
-<figcaption style="text-align: center;">Interactive nucleotide attention</figcaption>
+<figcaption style="text-align: center;">Nucleotide Transformer clipped attention weights on a hundred nucleotides from GRCh38 chromosome 11.</figcaption>
 </figure>
 
 # From text to DNA
