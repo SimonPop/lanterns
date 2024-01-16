@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/style.css">
+	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
+	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/pygments.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<link href="https://simonpop.github.io/" type="application/atom+xml" rel="alternate" title="Simon Popelier ATOM Feed" />
+
+
+		<title>Simon Popelier</title>
+		<meta charset="utf-8" />
+</head>
+<body>
+	<section id="sidebar">
+		<figure id="user_logo">
+            <a href="https://simonpop.github.io"><div class="logo">&nbsp;</div></a>
+		</figure>
+
+		<div class="user_meta">
+            <h1 id="user"><a href="https://simonpop.github.io" class="">Simon Popelier</a></h1>
+			<h2></h2>
+			<p class="bio">Data Scientist and Graph Enthusiast.</p>
+			<ul>
+					<li><a href="https://github.com/SimonPop">GitHub</a></li>
+					<li><a href="https://www.linkedin.com/in/simon-popelier/">LinkedIn</a></li>
+			</ul>
+		</div>
+		<footer>
+			<address>
+				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
+		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
+			</address>
+		</footer>
+	</section>
+
+	<section id="posts">
+	<header>
+		<h1>Simon Popelier's blog</h1>
+		<h3>Posted lun. 15 janvier 2024</h3>
+	</header>
+	<article>
+		<h1 id="title">
+			<a href="https://simonpop.github.io/fundational-genomic-models.html" rel="bookmark"
+				title="Permalink to Fundational Genomic Models">Fundational Genomic Models</a>
+		</h1>
+		<h1>Introduction</h1>
+<p>Foundation models are a common feature of language modeling. Architectures such as BERT and GPT have proved themselves over the last years as generalist families of models able to solve a wide range of problems.</p>
+<p>Inspired by this work, several research projects are attempting to apply the same ideas to another type of data: DNA sequences.</p>
+<figure>
+<div id="my_dataviz"></div>
+<figcaption style="text-align: center;">Interactive nucleotide attention</figcaption>
+</figure>
+
+<h1>From text to DNA</h1>
+<p>One may ask why using NLP-born techniques in the field of genomics is relevant. </p>
+<p>This is due both to the nature of the task as well as the availability of data to perform it. </p>
+<h2>The nucleic acid sequence</h2>
+<p>One of the main components of DNA is its nucleotide sequence.</p>
+<p>This sequence of molecules, called <a href="https://en.wikipedia.org/wiki/Nucleotide">nucleotides</a>, can take one of 4 forms (bases): Adenine, Thymine, Cytosine and Guanine.</p>
+<p>It is then tempting to draw an analogy between a chain of nucleotides and the words of a sentence, DNA sequences and sentences or paragraphs.</p>
+<p>If the form corresponds, so does the substance. Indeed, nucleotide sequences are particularly informative about the function of different biological processes. If decoding a text enables us to understand its message, decoding a DNA sequence helps deriving numerous biological results.</p>
+<p>More genrally, the practice of applying text mining (including NLP approaches) to biology is called <a href="https://en.wikipedia.org/wiki/Biomedical_text_mining">Biomedical text mining</a>.</p>
+<h2>The DNA corpus</h2>
+<p>So the idea of applying the methods developed in the field of NLP is particularly relevant to DNA sequences. But are the conditions right for it to work?</p>
+<p>For one thing, DNA sequences are long. Very long. On the other, they are diverse. The <a href="https://en.wikipedia.org/wiki/Human_genome">human genome</a> alone is composed of about 3 billion nucleotide pairs.</p>
+<p>On the other hand, it has been empirically demonstrated that the deductions that can be drawn from DNA sequences are partly transferable from one species to another. This means that it is possible to train a model intended for the study of several species together or to train a model intended for one species in particular with the help of knowledge acquired from others. The <a href="https://www.biorxiv.org/content/10.1101/2023.01.11.523679v1">Nucleotide Transformer</a> proposes for a multispecies model trained on 850 different species at once. </p>
+<p>The available corpus is immense, enabling the use not only of NLP techniques but LLMs and foundation models in particular.</p>
+<h1>Models</h1>
+<h2>Learning objective</h2>
+<p>The founding principle of this type of model is unsupervised training. Even more so than in NLP, the acquisition of labeled data in biology is particularly costly in terms of time and resources. It is therefore particularly beneficial to be able to bypass it.</p>
+<p>The results of <a href="https://www.biorxiv.org/content/10.1101/2023.01.11.523679v1">AgroNT</a> show that the gain produced by access to a much larger corpus enables us to gain in performance without the need for labels.</p>
+<p>In this way, the methods used for learning are based on those of unsupervised NLP, such as <a href="https://en.wikipedia.org/wiki/BERT_(language_model)#Pretraining">Next Sentence Prediction</a>, <a href="https://en.wikipedia.org/wiki/BERT_(language_model)#Pretraining">Masked Language Modeling</a> and <a href="https://huggingface.co/blog/alonsosilva/nexttokenprediction">Next Token Prediction</a>.</p>
+<h2><strong>Tokenization</strong></h2>
+<p>In NLP, advanced tokenization techniques such as <a href="https://en.wikipedia.org/wiki/Byte_pair_encoding">Byte Pair Encoding</a> or <a href="https://arxiv.org/abs/1609.08144">WordPiece</a> have been developed.</p>
+<p>Today, tokenization of DNA sequence models mostly relies on <a href="https://en.wikipedia.org/wiki/K-mer"><em>k</em>-mers</a>, fixed-length sequences of <em>k</em> nucleotides.</p>
+<p>These often perform well since related to biological concepts such as codons, sequences of 3 nucleotides that map to amino-acids and are a subset of 3-mers (see <a href="https://en.wikipedia.org/wiki/K-mer#k_=_3">k=3</a>). It is often said that the frequency of <em>k</em>-mers in a genomic region is akin to a signature. </p>
+<figure>
+    <img src="./imgs/genomic-fundational-model/k_mers.jpg" alt= "K-mers" width="100%">
+    <figcaption style="text-align: center;">Illustration of the 6-merization of a sequence of 12 nucleotide in a overlapping and non-overlapping fashion.</figcaption>
+</figure>
+
+<h2>Architectures</h2>
+<h3>Core architecture</h3>
+<p>The majority of architectures are based on those that have proved their worth in NLP, namely <a href="https://en.wikipedia.org/wiki/BERT_(language_model)">BERT</a> and <a href="https://en.wikipedia.org/wiki/Generative_pre-trained_transformer">GPT</a> derivatives.</p>
+<p>Architectures based on CNNs and RNNs have given way to Transformers. </p>
+<p>Since sequences of DNA can be influenced by far away other sequences, models allowing long-range interactions like <a href="https://www.nature.com/articles/s41592-021-01252-x">Enformer</a> shine the most. </p>
+<p>Other Transformer architectures, such as expert mixtures, or completely different architecture like State Space Models are likely to emerge in the near future.</p>
+<h3>Positional Encodings</h3>
+<p>Similarly, many models use positional encoding techniques developped for NLP such as <a href="https://arxiv.org/abs/2104.09864">RoPE</a> and <a href="https://arxiv.org/abs/2108.12409">ALiBi</a>.</p>
+<p>However, it is quite possible that specific methods for DNA sequences will emerge over time. Indeed, the physical structure of DNA sequences plays an important role in inter-sequence interactions. For example, models like <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8211359/">Akita</a> are capable of learning genome folding.</p>
+<h1>Applications</h1>
+<p>While the use of a model that knows how to manipulate the words in a sentence may seem intuitive, the use of a model that manipulates DNA sequences is less so. Yet there are countless applications for these models.</p>
+<h2>Uses</h2>
+<p>A model based on DNA sequences can be used in a variety of ways.</p>
+<figure>
+    <img src="./imgs/genomic-fundational-model/usages.jpg" alt= "Model usages" width="100%">
+    <figcaption style="text-align: center;">Different usages of a same foundational model.</figcaption>
+</figure>
+
+<h3>Direct usage</h3>
+<p>The most obvious way is to specialize it so that it predicts a value directly from the sequences read as input. This is the case, for example, with gene expression prediction.</p>
+<h3>Relative usage</h3>
+<p>The model can also be used to compare two different sequences. This is the case when analyzing the dangerousness of a mutation. The model's prediction can then be compared for two sequences involving two alleles.</p>
+<h3>Backward usage</h3>
+<p>It can also be used in reverse to understand the mechanisms it models and extrapolate them to real mechanisms. Such a model can be used to explore a vast space at low cost, performing large scale <em>in silico</em> experiments.</p>
+<p>Interpretability analyses help understanding which sequences work in cores with others. Attention or gradient interpretability analyses can be used in this context.</p>
+<p>In the case of <a href="https://www.nature.com/articles/s41592-021-01252-x">Enformer</a>, we can observe that the model focuses its attention on the same side of the TAD boundary when it performs a prediction on this side.</p>
+<figure>
+    <img src="./imgs/genomic-fundational-model/nucleotide_attention.png" alt= "Attention matrix" width="100%">
+    <figcaption style="text-align: center;">Last layer attention matrix in Nucleotide Transformer inference on a hundred token from GRCh38 chromosome 11.</figcaption>
+</figure>
+
+<h2>Adaptation</h2>
+<p>For many of these applications, it is necessary to specialize the model.</p>
+<h3>Probing</h3>
+<p>The most traditional way of specializing the model is to train a successor model that uses the representation learned from the model. An example of this is logistic regression.</p>
+<h3>Fine Tuning</h3>
+<p>The most effective methods, however, consist in allowing the entire model to adapt to the final task. This is known as fine-tuning, and all the techniques developed for LLM also apply here: <a href="https://huggingface.co/docs/peft/conceptual_guides/ia3">IA3</a>, <a href="https://huggingface.co/docs/peft/conceptual_guides/lora">LoRA</a>.</p>
+<h3>Zero-Shot learning</h3>
+<p>However, it is possible to use a foundation model without even specializing it. These techniques are called zero-shot learning. This is the case, for example, when a variation hazard score (SNV) is extracted directly from the various MLM task predictions like the <a href="https://www.biorxiv.org/content/10.1101/2022.08.22.504706v2">Genomic Pre-trained Network score</a>.</p>
+<p><illustration du gene score></p>
+<h2>Research</h2>
+<h3>NLP performance replication</h3>
+<p>On the one hand, the field is lagging behind the latest advances in LLMs. Each of these advances represents an avenue for research into the portability of new techniques in the field of genomics.</p>
+<h3>Specific extension to genomics</h3>
+<p>On the other hand, it is possible to study further how to make these models good specifically in their domain.</p>
+<p>What's more, as the topic is still in its infancy, it lacks benchmarks and fully mature datasets. As a result, numerous papers have been published on these subjects. For example, <a href="https://www.biorxiv.org/content/10.1101/2023.10.24.563624v1">AgroNT</a> comes with its own new Plants Genomic Benchmark.</p>
+<h1>Conclusion</h1>
+<p>The concept of foundational model has successfully transfered to the genomics field. It currently relies on the same transformer models that have succeeded in the NLP domain. Yet it is still at its infancy, and many biology specific models are yet to be developped. Check out <a href="https://arxiv.org/abs/2311.07621">"To Transformers and Beyond"</a> to learn more about the topic! </p>
+<h1>References</h1>
+<p>Avsec, Žiga et al. 2021. « Effective Gene Expression Prediction from Sequence by Integrating Long-Range Interactions ». Nature Methods 18(10): 1196‑1203.</p>
+<p>Benegas, Gonzalo, Sanjit Singh Batra, et Yun S. Song. 2023. « DNA Language Models Are Powerful Zero-Shot Predictors of Genome-Wide Variant Effects ». : 2022.08.22.504706. https://www.biorxiv.org/content/10.1101/2022.08.22.504706v2 (14 janvier 2024).</p>
+<p>Consens, Micaela E. et al. 2023. « To Transformers and Beyond: Large Language Models for the Genome ». http://arxiv.org/abs/2311.07621 (15 janvier 2024).</p>
+<p>Dalla-Torre, Hugo et al. 2023. « The Nucleotide Transformer: Building and Evaluating Robust Foundation Models for Human Genomics ». : 2023.01.11.523679. https://www.biorxiv.org/content/10.1101/2023.01.11.523679v1 (14 janvier 2024).</p>
+<p>van Dijk, Aalt Dirk Jan, Gert Kootstra, Willem Kruijer, et Dick de Ridder. 2021. « Machine learning in plant science and plant breeding ». iScience 24(1): 101890.</p>
+<p>Esposito, Salvatore, Domenico Carputo, Teodoro Cardi, et Pasquale Tripodi. 2020. « Applications and Trends of Machine Learning in Genomics and Phenomics for Next-Generation Breeding ». Plants 9(1): 34.</p>
+<p>« FEB94 A New Algorithm for Data Compression ». http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM (16 janvier 2024).
+Fudenberg, Geoff, David R. Kelley, et Katherine S. Pollard. 2020. « Predicting 3D genome folding from DNA sequence with Akita ». Nature methods 17(11): 1111‑17.</p>
+<p>Hastings, Janna. 2017. « Primer on Ontologies ». In The Gene Ontology Handbook, Methods in Molecular Biology, éd. Christophe Dessimoz et Nives Škunca. New York, NY: Springer, 3‑13. https://doi.org/10.1007/978-1-4939-3743-1_1 (17 décembre 2023).</p>
+<p>Mendoza-Revilla, Javier et al. 2023. « A Foundational Large Language Model for Edible Plant Genomes ». : 2023.10.24.563624. https://www.biorxiv.org/content/10.1101/2023.10.24.563624v1 (14 janvier 2024).</p>
+<p>Press, Ofir, Noah A. Smith, et Mike Lewis. 2022. « Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation ». http://arxiv.org/abs/2108.12409 (16 janvier 2024).</p>
+<p>Su, Jianlin et al. 2023. « RoFormer: Enhanced Transformer with Rotary Position Embedding ». http://arxiv.org/abs/2104.09864 (16 janvier 2024).
+Wu, Yonghui et al. 2016. « Google’s Neural Machine Translation System: Bridging the Gap between Human and Machine Translation ». http://arxiv.org/abs/1609.08144 (16 janvier 2024).</p>
+
+		<div id="article_meta">
+				Category:
+					<a href="https://simonpop.github.io/category/biology.html">Biology</a>
+				<br />Tags:
+					<a href="https://simonpop.github.io/tag/genomics.html">genomics</a>
+					<a href="https://simonpop.github.io/tag/llm.html">llm</a>
+					<a href="https://simonpop.github.io/tag/foundation-models.html">foundation-models</a>
+		</div>
+	</article>
+
+	<footer>
+		<a href="https://simonpop.github.io/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
+	</footer>
+
+
+	</section>
+
+					<script src="https://simonpop.github.io/js/nucleotide_attention.js"></script>
+</body>
+</html>
