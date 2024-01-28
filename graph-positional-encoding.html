@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/style.css">
+	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
+	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
+	<link rel="stylesheet" type="text/css" href="https://simonpop.github.io/theme/css/pygments.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<link href="https://simonpop.github.io/" type="application/atom+xml" rel="alternate" title="Simon Popelier ATOM Feed" />
+
+
+		<title>Simon Popelier</title>
+		<meta charset="utf-8" />
+</head>
+<body>
+	<section id="sidebar">
+		<figure id="user_logo">
+            <a href="https://simonpop.github.io"><div class="logo">&nbsp;</div></a>
+		</figure>
+
+		<div class="user_meta">
+            <h1 id="user"><a href="https://simonpop.github.io" class="">Simon Popelier</a></h1>
+			<h2></h2>
+			<p class="bio">Data Scientist and Graph Enthusiast.</p>
+			<ul>
+					<li><a href="https://github.com/SimonPop">GitHub</a></li>
+					<li><a href="https://www.linkedin.com/in/simon-popelier/">LinkedIn</a></li>
+			</ul>
+		</div>
+		<footer>
+			<address>
+				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
+		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
+			</address>
+		</footer>
+	</section>
+
+	<section id="posts">
+	<header>
+		<h1>Simon Popelier's blog</h1>
+		<h3>Posted mer. 24 janvier 2024</h3>
+	</header>
+	<article>
+		<h1 id="title">
+			<a href="https://simonpop.github.io/graph-positional-encoding.html" rel="bookmark"
+				title="Permalink to Graph Positional Encoding">Graph Positional Encoding</a>
+		</h1>
+		<h1>Attention to graphs</h1>
+<p>The attention mechanism popularized by the famous <a href="https://arxiv.org/abs/1706.03762">Transformer</a> model can be applied to more than just sequential inputs. As the field of computer vision has proven, it can be applied to images with equal success (e.g. the <a href="https://arxiv.org/abs/2010.11929">ViT</a> model). To make this transition, we need to change a crucial point in the recipe: positional encodings.</p>
+<p>These allow the model to see what would otherwise be a set of points as a sequence, like an image.</p>
+<p>It is also possible to make the model perceive the input as a graph by choosing positional encodings wisely.</p>
+<p>To do this, we need to ask ourselves what makes a particular node stand out from others in a given graph.</p>
+<h1>Position</h1>
+<p>As a first step, the notion of position used by the Transformer on sequences and images can be derived to operate on graphs.</p>
+<p>There are positional encodings (PE) such as <a href="https://arxiv.org/abs/1706.03762">sinusoidal</a> or <a href="https://arxiv.org/abs/2104.09864">RoPE</a>, which give close representations to elements that are close in the sequence, and distant representations to distant elements.</p>
+<p><Illustration RoPE></p>
+<p>The idea behind PEs on graphs is the same. It involves characterizing nearby nodes, e.g. having the shortest path short, by close embeddings, and distant nodes by distinct representations.</p>
+<p>One of the most commonly used methods is to choose the <a href="https://arxiv.org/abs/2003.00982">eigenvectors of the Laplacian matrix</a> of the graph. These behave like sinusoids at different frequencies on 1-D sequences.</p>
+<p><Laplacian illustration></p>
+<p>This allows a Transformer model to assimilate in which part of the graph it operates.</p>
+<figure style="padding-left: 0px;margin-left: 0px;">
+<div id="laplacian_similarity"></div>
+<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network.</figcaption>
+</figure>
+
+<p>This mechanism is also inherently lacking in message-passing (<a href="https://paperswithcode.com/method/mpnn">MPNN</a>) models, so these embeddings are also used in these paradigms.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">AddLaplacianEigenvectorPE</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">from_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="n">laplacian</span> <span class="o">=</span> <span class="n">AddLaplacianEigenvectorPE</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">laplacian</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">156</span><span class="p">],</span> <span class="n">club</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="p">[</span><span class="mi">156</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Zachary&#39;</span><span class="n">s</span> <span class="n">Karate</span> <span class="n">Club</span><span class="s1">&#39;, num_nodes=34, laplacian_eigenvector_pe=[34, 10])</span>
+</code></pre></div>
+
+<h1>Structure</h1>
+<p>However, the position of a node is not enough to fully characterize it in the eyes of an attention model. Indeed, if for a sequence of words or an image the structure is implicit: a one-dimensional string, a uniform lattice. This is no longer the case when we're interested in a graph. So we need to find a way of transcribing the structure of the network itself.</p>
+<p>In the MPNN models mentioned above, this is done mechanically, with a default power equivalent to the 1-[Weisfeiler-Lehman] test (https://en.wikipedia.org/wiki/Weisfeiler_Leman_graph_isomorphism_test). This is a test to discern whether two graphs are isomorphic for certain graph types. We are looking for a representation that allows us to distinguish between different graphs with as much flexibility as possible.</p>
+<p>The aim of structural embedding is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">AddLaplacianEigenvectorPE</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">from_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="n">laplacian</span> <span class="o">=</span> <span class="n">AddLaplacianEigenvectorPE</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">laplacian</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">156</span><span class="p">],</span> <span class="n">club</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="p">[</span><span class="mi">156</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Zachary&#39;</span><span class="n">s</span> <span class="n">Karate</span> <span class="n">Club</span><span class="s1">&#39;, num_nodes=34, laplacian_eigenvector_pe=[34, 10])</span>
+</code></pre></div>
+
+<h1>Conclusion</h1>
+<p>The Transformer is an extremely flexible model and can be applied once again with excellent results in the graph domain. It does, however, need to adapt its perception of graph nodes to take advantage of this. This is achieved through positional encodings in two ways: position and structure.</p>
+<p>These topics are far from being fully exploited and are the subject of numerous research papers. The aim is to make representations as powerful in terms of node distinction and generalizable across graphs as possible.</p>
+<p>Recent approaches explore learned representations such as <a href="https://arxiv.org/abs/2110.07875">LSPE</a> and <a href="https://arxiv.org/abs/2307.07107">GPSE</a> rather than arbitrarily defined by the heuristics previously presented.</p>
+<p>The development of new techniques will make it possible to better combine the now indispensable Transformer architecture with the incredible richness of graph representations.</p>
+<h1>References</h1>
+<p>Dosovitskiy, Alexey et al. 2021. « An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale ». http://arxiv.org/abs/2010.11929 (26 janvier 2024).</p>
+<p>Dwivedi, Vijay Prakash, Chaitanya K. Joshi, et al. 2022. « Benchmarking Graph Neural Networks ». http://arxiv.org/abs/2003.00982 (28 janvier 2024).</p>
+<p>Dwivedi, Vijay Prakash, Anh Tuan Luu, et al. 2022. « Graph Neural Networks with Learnable Structural and Positional Representations ». http://arxiv.org/abs/2110.07875 (28 janvier 2024).</p>
+<p>Liu, Renming et al. 2023. « Graph Positional and Structural Encoder ». http://arxiv.org/abs/2307.07107 (28 janvier 2024).</p>
+<p>Mialon, Grégoire, Dexiong Chen, Margot Selosse, et Julien Mairal. « GraphiT: Encoding Graph Structure in Transformers ».</p>
+<p>Su, Jianlin et al. 2023. « RoFormer: Enhanced Transformer with Rotary Position Embedding ». http://arxiv.org/abs/2104.09864 (28 janvier 2024).</p>
+<p>Vaswani, Ashish et al. 2023. « Attention Is All You Need ». http://arxiv.org/abs/1706.03762 (28 janvier 2024).</p>
+
+		<div id="article_meta">
+				Category:
+					<a href="https://simonpop.github.io/category/network-science.html">Network Science</a>
+				<br />Tags:
+					<a href="https://simonpop.github.io/tag/graph-neural-network.html">graph-neural-network</a>
+		</div>
+	</article>
+
+	<footer>
+		<a href="https://simonpop.github.io/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
+	</footer>
+
+
+	</section>
+
+					<script src="https://simonpop.github.io/js/laplacian_similarity.js"></script>
+</body>
+</html>
