@@ -4,6 +4,8 @@ Category: Network Science
 Tags: graph-neural-network
 Author: Simon Popelier
 Summary: Encoding structure and position for attention on graphs.
+JS: laplacian_similarity.js (bottom) 
+
 
 # Attention to graphs
 
@@ -31,7 +33,10 @@ One of the most commonly used methods is to choose the [eigenvectors of the Lapl
 
 This allows a Transformer model to assimilate in which part of the graph it operates.
 
-<Similarity illustration>
+<figure style="padding-left: 0px;margin-left: 0px;">
+<div id="laplacian_similarity"></div>
+<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network.</figcaption>
+</figure>
 
 This mechanism is also inherently lacking in message-passing ([MPNN](https://paperswithcode.com/method/mpnn)) models, so these embeddings are also used in these paradigms.
 
