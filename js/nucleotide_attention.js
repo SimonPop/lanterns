@@ -89,35 +89,33 @@
      .attr("transform", function(d){ return( "translate(" + (x(d.name)) + "," + (height-15) + ")rotate(-45)")})
      .style("font-size", 6)
  
- // Add the highlighting functionality
+
+
+     function mouseover() {
+      const d = this.__data__;
+      nodes
+        .style('opacity', function (node_d) { return node_d.id === d.id ? 1 : .2})
+      links
+        .style('stroke', function (link_d) {  return link_d.source === d.id || link_d.target === d.id ? color(d.grp) : '#b8b8b8';})
+        .style('stroke-opacity', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 1 : .2;})
+        .style('stroke-width', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 4 : 1;})
+    }
+
+    function mouseout(d) {
+      nodes.style('opacity', 1)
+      links
+        .style('stroke', 'grey')
+        .style('stroke-opacity', .8)
+        .style('stroke-width', '1')
+    }
+
  nodes
-   .on('mouseover', function (d) {
-     // Highlight the nodes: every node is green except of him
-     nodes
-       .style('opacity', .2)
-     d3.select(this)
-       .style('opacity', 1)
-     // Highlight the connections
-     d=this.__data__;
-     links
-       .style('stroke', function (link_d) {  return link_d.source === d.id || link_d.target === d.id ? color(d.grp) : '#b8b8b8';})
-       .style('stroke-opacity', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 1 : .2;})
-       .style('stroke-width', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 4 : 1;})
-     labels
-       .style("font-size", function(label_d){ return label_d.name === d.name ? 16 : 2 } )
-       .attr("y", function(label_d){ return label_d.name === d.name ? 10 : 0 } )
- 
-   })
-   .on('mouseout', function (d) {
-     nodes.style('opacity', 1)
-     links
-       .style('stroke', 'grey')
-       .style('stroke-opacity', .8)
-       .style('stroke-width', '1')
-     labels
-       .style("font-size", 6 )
- 
-   })
+   .on('mouseover', mouseover)
+   .on('mouseout', mouseout)
+
+   labels
+   .on('mouseover', mouseover)
+   .on('mouseout', mouseout)
  }
  
  const data ={"directed": false, "multigraph": false, "graph": {}, "nodes": [{"name": "ATGAAT", "n": 3, "grp": 1, "id": 0}, {"name": "ATGAGA", "n": 3, "grp": 1, "id": 1}, {"name": "GGCAAC", "n": 3, "grp": 1, "id": 2}, {"name": "CACTGG", "n": 3, "grp": 1, "id": 3}, {"name": "ACCAGC", "n": 3, "grp": 1, "id": 4}, {"name": "TGCTTG", "n": 3, "grp": 1, "id": 5}, {"name": "GTCCTC", "n": 3, "grp": 1, "id": 6}, {"name": "ACCACC", "n": 3, "grp": 1, "id": 7}, {"name": "TCCTGC", "n": 3, "grp": 1, "id": 8}, {"name": "TTCTGC", "n": 3, "grp": 1, "id": 9}, {"name": "CAATCA", "n": 3, "grp": 1, "id": 10}, {"name": "GTGTGG", "n": 3, "grp": 1, "id": 11}, {"name": "GGAAAT", "n": 3, "grp": 1, "id": 12}, {"name": "CTCAAC", "n": 3, "grp": 1, "id": 13}, {"name": "AGTAAG", "n": 3, "grp": 1, "id": 14}, {"name": "GTGGCT", "n": 3, "grp": 1, "id": 15}, {"name": "TATATT", "n": 3, "grp": 1, "id": 16}, {"name": "CCCTGC", "n": 3, "grp": 1, "id": 17}, {"name": "CTGGCA", "n": 3, "grp": 1, "id": 18}, {"name": "GCCTCA", "n": 3, "grp": 1, "id": 19}], "links": [{"value": 14.079424858093262, "source": 0, "target": 0}, {"value": 9.610678672790527, "source": 0, "target": 1}, {"value": 5.67416524887085, "source": 0, "target": 2}, {"value": 13.099932670593262, "source": 1, "target": 1}, {"value": 8.72221851348877, "source": 1, "target": 2}, {"value": 6.548681735992432, "source": 1, "target": 3}, {"value": 5.475786209106445, "source": 1, "target": 4}, {"value": 12.412276268005371, "source": 2, "target": 2}, {"value": 8.482029914855957, "source": 2, "target": 3}, {"value": 5.469754219055176, "source": 2, "target": 4}, {"value": 10.488797187805176, "source": 3, "target": 3}, {"value": 7.666423320770264, "source": 3, "target": 4}, {"value": 5.253114700317383, "source": 3, "target": 5}, {"value": 10.05762004852295, "source": 4, "target": 4}, {"value": 7.246118068695068, "source": 4, "target": 5}, {"value": 5.838126182556152, "source": 4, "target": 6}, {"value": 11.038351058959961, "source": 5, "target": 5}, {"value": 7.329514026641846, "source": 5, "target": 6}, {"value": 5.145374298095703, "source": 5, "target": 7}, {"value": 12.199413299560547, "source": 6, "target": 6}, {"value": 9.042478561401367, "source": 6, "target": 7}, {"value": 6.7227067947387695, "source": 6, "target": 8}, {"value": 5.452264308929443, "source": 6, "target": 9}, {"value": 11.373558044433594, "source": 7, "target": 7}, {"value": 7.562961578369141, "source": 7, "target": 8}, {"value": 5.067957878112793, "source": 7, "target": 9}, {"value": 11.62516975402832, "source": 8, "target": 8}, {"value": 8.760519027709961, "source": 8, "target": 9}, {"value": 5.081593036651611, "source": 8, "target": 10}, {"value": 11.085769653320312, "source": 9, "target": 9}, {"value": 7.779297828674316, "source": 9, "target": 10}, {"value": 5.507758617401123, "source": 9, "target": 11}, {"value": 5.4201436042785645, "source": 9, "target": 12}, {"value": 10.750988960266113, "source": 10, "target": 10}, {"value": 7.016502857208252, "source": 10, "target": 11}, {"value": 5.051741123199463, "source": 10, "target": 12}, {"value": 11.566547393798828, "source": 11, "target": 11}, {"value": 8.766159057617188, "source": 11, "target": 12}, {"value": 5.54258918762207, "source": 11, "target": 13}, {"value": 5.414167404174805, "source": 11, "target": 14}, {"value": 5.370650291442871, "source": 11, "target": 15}, {"value": 13.752365112304688, "source": 12, "target": 12}, {"value": 8.638349533081055, "source": 12, "target": 13}, {"value": 7.051010608673096, "source": 12, "target": 14}, {"value": 6.336139678955078, "source": 12, "target": 15}, {"value": 5.591766357421875, "source": 12, "target": 16}, {"value": 11.10761547088623, "source": 13, "target": 13}, {"value": 7.490784645080566, "source": 13, "target": 14}, {"value": 5.277299404144287, "source": 13, "target": 15}, {"value": 13.596616744995117, "source": 14, "target": 14}, {"value": 8.484081268310547, "source": 14, "target": 15}, {"value": 6.039680004119873, "source": 14, "target": 16}, {"value": 5.0131516456604, "source": 14, "target": 17}, {"value": 5.3633222579956055, "source": 14, "target": 18}, {"value": 5.267733573913574, "source": 14, "target": 19}, {"value": 12.447599411010742, "source": 15, "target": 15}, {"value": 8.641986846923828, "source": 15, "target": 16}, {"value": 5.835555553436279, "source": 15, "target": 17}, {"value": 5.525477409362793, "source": 15, "target": 18}, {"value": 5.6785454750061035, "source": 15, "target": 19}, {"value": 13.401476860046387, "source": 16, "target": 16}, {"value": 8.066778182983398, "source": 16, "target": 17}, {"value": 5.661962509155273, "source": 16, "target": 18}, {"value": 5.348077297210693, "source": 16, "target": 19}, {"value": 12.130752563476562, "source": 17, "target": 17}, {"value": 8.734533309936523, "source": 17, "target": 18}, {"value": 6.57343053817749, "source": 17, "target": 19}, {"value": 12.550926208496094, "source": 18, "target": 18}, {"value": 8.78527545928955, "source": 18, "target": 19}, {"value": 14.581661224365234, "source": 19, "target": 19}]}
