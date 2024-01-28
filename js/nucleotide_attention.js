@@ -93,6 +93,7 @@
 
      function mouseover() {
       const d = this.__data__;
+      labels.style('font-weight', function (label_d) {return label_d.id == d.id ? "bold" : "normal"})
       nodes
         .style('opacity', function (node_d) { return node_d.id === d.id ? 1 : .2})
       links
@@ -102,6 +103,7 @@
     }
 
     function mouseout(d) {
+      labels.style('font-weight', 'normal')
       nodes.style('opacity', 1)
       links
         .style('stroke', 'grey')
