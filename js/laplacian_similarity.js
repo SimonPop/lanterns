@@ -65,9 +65,9 @@ function graph(data) {
     nodes
     .on('mouseover', function (d) {
         index=this.__data__.id;
-        this.style('stroke-width', 5).attr("r", 11)
+        d.style('stroke-width', 5).attr("r", 11)
         nodes.style("fill", function(d) {return colors(d.laplacian_similarity[index])});
-    }).on('mouseout', function (d) {this.style('stroke-width', 3).attr("r", 10)})
+    }).on('mouseout', function (d) {d.style('stroke-width', 3).attr("r", 10)})
 
 
 }
