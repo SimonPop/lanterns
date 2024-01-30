@@ -55,17 +55,16 @@
 <h1>Position</h1>
 <p>As a first step, the notion of position used by the Transformer on sequences and images can be derived to operate on graphs.</p>
 <p>There are positional encodings (PE) such as <a href="https://arxiv.org/abs/1706.03762">sinusoidal</a> or <a href="https://arxiv.org/abs/2104.09864">RoPE</a>, which give close representations to elements that are close in the sequence, and distant representations to distant elements.</p>
-<p><Illustration RoPE></p>
 <p>The idea behind PEs on graphs is the same. It involves characterizing nearby nodes, e.g. having the shortest path short, by close embeddings, and distant nodes by distinct representations.</p>
 <p>One of the most commonly used methods is to choose the <a href="https://arxiv.org/abs/2003.00982">eigenvectors of the Laplacian matrix</a> of the graph. These behave like sinusoids at different frequencies on 1-D sequences.</p>
-<p><Laplacian illustration></p>
 <p>This allows a Transformer model to assimilate in which part of the graph it operates.</p>
 <figure style="padding-left: 0px;margin-left: 0px;">
 <div id="laplacian_similarity"></div>
-<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network.</figcaption>
+<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network. Hover nodes to reveal the raw attention weights from one node to all the others using the first 10 eigenvectors.</figcaption>
 </figure>
 
 <p>This mechanism is also inherently lacking in message-passing (<a href="https://paperswithcode.com/method/mpnn">MPNN</a>) models, so these embeddings are also used in these paradigms.</p>
+<p>It is possible to use that method easily with the <a href="https://pyg.org/">PyG</a> library:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">AddLaplacianEigenvectorPE</span>
 
@@ -82,6 +81,13 @@
 <p>However, the position of a node is not enough to fully characterize it in the eyes of an attention model. Indeed, if for a sequence of words or an image the structure is implicit: a one-dimensional string, a uniform lattice. This is no longer the case when we're interested in a graph. So we need to find a way of transcribing the structure of the network itself.</p>
 <p>In the MPNN models mentioned above, this is done mechanically, with a default power equivalent to the 1-[Weisfeiler-Lehman] test (https://en.wikipedia.org/wiki/Weisfeiler_Leman_graph_isomorphism_test). This is a test to discern whether two graphs are isomorphic for certain graph types. We are looking for a representation that allows us to distinguish between different graphs with as much flexibility as possible.</p>
 <p>The aim of structural embedding is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.</p>
+<p>One popular method is <a href="https://arxiv.org/abs/2110.07875">Random Walk encodings</a>. It encodes the probability of a random walk starting from a node and ending on that same node after <em>k</em> steps. It depends on, and therefore reflects, the surrounding structure of the node.</p>
+<figure style="padding-left: 0px;margin-left: 0px;">
+<div id="random_walk"></div>
+<figcaption style="text-align: center;">Random walk encoding node similarity on the Zachary's Karate Club network. Hover nodes to reveal the raw attention weights from one node to all the others using the first 10 path length.</figcaption>
+</figure>
+
+<p>In the same way, <a href="https://pyg.org/">PyG</a> allows for such encoding:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">AddLaplacianEigenvectorPE</span>
 
@@ -124,5 +130,6 @@
 	</section>
 
 					<script src="https://simonpop.github.io/js/laplacian_similarity.js"></script>
+					<script src="https://simonpop.github.io/js/random_walk_similarity.js"></script>
 </body>
 </html>
