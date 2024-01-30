@@ -4,7 +4,7 @@ Category: Network Science
 Tags: graph-neural-network
 Author: Simon Popelier
 Summary: Encoding structure and position for attention on graphs.
-JS: laplacian_similarity.js (bottom) 
+JS: laplacian_similarity.js (bottom), random_walk_similarity.js (bottom)
 
 
 # Attention to graphs
@@ -23,22 +23,20 @@ As a first step, the notion of position used by the Transformer on sequences and
 
 There are positional encodings (PE) such as [sinusoidal](https://arxiv.org/abs/1706.03762) or [RoPE](https://arxiv.org/abs/2104.09864), which give close representations to elements that are close in the sequence, and distant representations to distant elements.
 
-<Illustration RoPE>
-
 The idea behind PEs on graphs is the same. It involves characterizing nearby nodes, e.g. having the shortest path short, by close embeddings, and distant nodes by distinct representations.
 
 One of the most commonly used methods is to choose the [eigenvectors of the Laplacian matrix](https://arxiv.org/abs/2003.00982) of the graph. These behave like sinusoids at different frequencies on 1-D sequences.
-
-<Laplacian illustration>
 
 This allows a Transformer model to assimilate in which part of the graph it operates.
 
 <figure style="padding-left: 0px;margin-left: 0px;">
 <div id="laplacian_similarity"></div>
-<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network.</figcaption>
+<figcaption style="text-align: center;">Laplacian encoding node similarity on the Zachary's Karate Club network. Hover nodes to reveal the raw attention weights from one node to all the others using the first 10 eigenvectors.</figcaption>
 </figure>
 
 This mechanism is also inherently lacking in message-passing ([MPNN](https://paperswithcode.com/method/mpnn)) models, so these embeddings are also used in these paradigms.
+
+It is possible to use that method easily with the [PyG](https://pyg.org/) library:
 
 ```python
 import networkx as nx
@@ -60,6 +58,15 @@ However, the position of a node is not enough to fully characterize it in the ey
 In the MPNN models mentioned above, this is done mechanically, with a default power equivalent to the 1-[Weisfeiler-Lehman] test (https://en.wikipedia.org/wiki/Weisfeiler_Leman_graph_isomorphism_test). This is a test to discern whether two graphs are isomorphic for certain graph types. We are looking for a representation that allows us to distinguish between different graphs with as much flexibility as possible.
 
 The aim of structural embedding is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.
+
+One popular method is [Random Walk encodings](https://arxiv.org/abs/2110.07875). It encodes the probability of a random walk starting from a node and ending on that same node after *k* steps. It depends on, and therefore reflects, the surrounding structure of the node.
+
+<figure style="padding-left: 0px;margin-left: 0px;">
+<div id="random_walk"></div>
+<figcaption style="text-align: center;">Random walk encoding node similarity on the Zachary's Karate Club network. Hover nodes to reveal the raw attention weights from one node to all the others using the first 10 path length.</figcaption>
+</figure>
+
+In the same way, [PyG](https://pyg.org/) allows for such encoding:
 
 ```python
 import networkx as nx

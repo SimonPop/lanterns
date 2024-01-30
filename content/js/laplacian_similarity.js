@@ -37,7 +37,7 @@ function graph(data) {
         .attr("r", 10)
         .attr("fill", "white")
         .attr("id", function(d,i) { return i; })
-        .attr("stroke", "black");
+        .attr("stroke", "rgb(170, 170, 170)").style('stroke-width', 3);
 
     // Let's list the force we wanna apply on the network
     var simulation = d3.forceSimulation(data.nodes) 
@@ -64,10 +64,10 @@ function graph(data) {
 
     nodes
     .on('mouseover', function (d) {
-    index=this.__data__.id;
-    console.log(index)
-    nodes.style("fill", function(d) {return colors(d.laplacian_similarity[index])});
-    })
+        index=this.__data__.id;
+        d3.select(this).style('stroke-width', 5).attr("r", 11)
+        nodes.style("fill", function(d) {return colors(d.laplacian_similarity[index])});
+    }).on('mouseout', function (d) {d3.select(this).style('stroke-width', 3).attr("r", 10)})
 
 
 }
