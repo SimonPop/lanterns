@@ -18,7 +18,7 @@ var svg = d3.select("#laplacian_similarity")
 function graph(data) {
 
     const pos_scale = 30;
-    const posx_offset = 325;
+    const posx_offset = 300;
     const posy_offset = 200;
     
     var link = svg
