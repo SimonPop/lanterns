@@ -4,7 +4,7 @@ Category: Network Science
 Tags: graph-neural-network
 Author: Simon Popelier
 Summary: Encoding structure and position for attention on graphs.
-JS: laplacian_similarity.js (bottom), random_walk_similarity.js (bottom)
+JS: molecule_pe.js (bottom), laplacian_similarity.js (bottom), random_walk_similarity.js (bottom)
 
 
 # Attention to graphs
