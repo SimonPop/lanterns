@@ -18,8 +18,8 @@ var svg = d3.select("#random_walk")
 function graph(data) {
 
     const pos_scale = 30;
-    const posx_offset = 300;
-    const posy_offset = 150;
+    const posx_offset = 325;
+    const posy_offset = 200;
     
     var link = svg
     .selectAll("line")
