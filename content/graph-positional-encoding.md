@@ -17,7 +17,7 @@ To do this, we need to ask ourselves what makes a particular node stand out from
 
 <figure>
     <img src="./imgs/graph-positional-encoding/molecule.svg" alt= "Atom difference" width="100%">
-    <figcaption style="text-align: center;">Molecule <i>CC(C)(C)c1ccc2occ(CC(=O)Nc3ccccc3F)c2c1</i> as a graph. What can differentiate atom from a Transformer perspective?</figcaption>
+    <figcaption style="text-align: center;">Molecule <i>CC(C)(C)c1ccc2occ(CC(=O)Nc3ccccc3F)c2c1</i> as a graph. What can differentiate atoms from a Transformer perspective?</figcaption>
 </figure>
 
 > Note that, we are speaking here of the graph as a structure without additional information on nodes. External node features including their geometric position in space can of course be leveraged in a graph Transformer model, but are not the topic of this article.
