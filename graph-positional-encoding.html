@@ -85,11 +85,11 @@
 <span class="o">&gt;&gt;&gt;</span> <span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">156</span><span class="p">],</span> <span class="n">club</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="p">[</span><span class="mi">156</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Zachary&#39;</span><span class="n">s</span> <span class="n">Karate</span> <span class="n">Club</span><span class="s1">&#39;, num_nodes=34, laplacian_eigenvector_pe=[34, 10])</span>
 </code></pre></div>
 
-<p>Laplacian PE are actually a hybrid type of encodings. More than the position alone, they also encode structural information. </p>
+<p>Laplacian eigenvectors are actually a hybrid type of encodings. More than the position alone, they also encode structural information. </p>
 <h1>Structure</h1>
 <p>The position of a node is not enough to fully characterize it in the eyes of an attention model. Indeed, if for a sequence of words or an image the structure is implicit: a one-dimensional string, a uniform lattice. This is no longer the case when we're interested in a graph. So we need to find a way of transcribing the structure of the network itself.</p>
 <p>In the MPNN models mentioned above, this is done mechanically, with a default power equivalent to the 1-<a href="https://en.wikipedia.org/wiki/Weisfeiler_Leman_graph_isomorphism_test">Weisfeiler-Lehman test</a>. This is a test to discern whether two graphs are isomorphic for certain graph types. We are looking for a representation that allows us to distinguish between different graphs with as much flexibility as possible.</p>
-<p>The aim of structural embedding is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.</p>
+<p>The aim of structural encoding (SE) is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.</p>
 <p>One popular method is <a href="https://arxiv.org/abs/2110.07875">Random Walk encodings</a>. It encodes the probability of a random walk starting from a node and ending on that same node after <em>k</em> steps. It depends on, and therefore reflects, the surrounding structure of the node.</p>
 <figure style="padding-left: 0px;margin-left: 0px;">
 <div id="random_walk"></div>
@@ -109,6 +109,34 @@
 <span class="o">&gt;&gt;&gt;</span> <span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">156</span><span class="p">],</span> <span class="n">club</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="p">[</span><span class="mi">156</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Zachary&#39;</span><span class="n">s</span> <span class="n">Karate</span> <span class="n">Club</span><span class="s1">&#39;, num_nodes=34, laplacian_eigenvector_pe=[34, 10])</span>
 </code></pre></div>
 
+<h1>Nomenclature</h1>
+<p>The <a href="https://arxiv.org/pdf/2205.12454.pdf">GraphGPS</a> paper proposes a categorization of PE and SE into Global, Local and Relative encodings.</p>
+<table>
+<thead>
+<tr>
+<th>Encoding type</th>
+<th>Positional</th>
+<th>Structural</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local</td>
+<td>The position of a node in its neighborhood.</td>
+<td>A description of the structure of a node's neighborhood.</td>
+</tr>
+<tr>
+<td>Global</td>
+<td>The position of a node in the entire graph.</td>
+<td>A description of the structure of a graph.</td>
+</tr>
+<tr>
+<td>Relative</td>
+<td>The distance between two nodes.</td>
+<td>The difference between two node's neighborhoods.</td>
+</tr>
+</tbody>
+</table>
 <h1>Conclusion</h1>
 <p>The Transformer is an extremely flexible model and can be applied once again with excellent results in the graph domain. It does, however, need to adapt its perception of graph nodes. This is achieved through positional encodings in two ways: position and structure.</p>
 <p>Numerous research papers are still being published on the subject. The aim is to make representations as powerful in terms of node distinction and generalizable across graphs as possible.</p>
@@ -124,6 +152,7 @@
 <p>Vaswani, Ashish et al. 2023. « Attention Is All You Need ». http://arxiv.org/abs/1706.03762 (28 janvier 2024).</p>
 <p>« Papers with Code - A Generalization of Transformer Networks to Graphs ». https://paperswithcode.com/paper/a-generalization-of-transformer-networks-to (10 février 2024).</p>
 <p>Ying, Chengxuan et al. 2021. « Do Transformers Really Perform Bad for Graph Representation? » http://arxiv.org/abs/2106.05234 (10 février 2024).</p>
+<p>Rampášek, Ladislav et al. 2023. « Recipe for a General, Powerful, Scalable Graph Transformer ». http://arxiv.org/abs/2205.12454 (11 février 2024).</p>
 
 		<div id="article_meta">
 				Category:
