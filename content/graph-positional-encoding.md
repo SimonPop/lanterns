@@ -57,7 +57,7 @@ data = laplacian.forward(data)
 >>> Data(edge_index=[2, 156], club=[34], weight=[156], name='Zachary's Karate Club', num_nodes=34, laplacian_eigenvector_pe=[34, 10])
 ```
 
-Laplacian PE are actually a hybrid type of encodings. More than the position alone, they also encode structural information. 
+Laplacian eigenvectors are actually a hybrid type of encodings. More than the position alone, they also encode structural information. 
 
 # Structure
 
@@ -65,7 +65,7 @@ The position of a node is not enough to fully characterize it in the eyes of an 
 
 In the MPNN models mentioned above, this is done mechanically, with a default power equivalent to the 1-[Weisfeiler-Lehman test](https://en.wikipedia.org/wiki/Weisfeiler_Leman_graph_isomorphism_test). This is a test to discern whether two graphs are isomorphic for certain graph types. We are looking for a representation that allows us to distinguish between different graphs with as much flexibility as possible.
 
-The aim of structural embedding is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.
+The aim of structural encoding (SE) is to associate a snapshot of its neighboring environment with a node. Two nodes with a similar surrounding structure should then obtain close representations.
 
 One popular method is [Random Walk encodings](https://arxiv.org/abs/2110.07875). It encodes the probability of a random walk starting from a node and ending on that same node after *k* steps. It depends on, and therefore reflects, the surrounding structure of the node.
 
@@ -88,6 +88,17 @@ data = laplacian.forward(data)
 
 >>> Data(edge_index=[2, 156], club=[34], weight=[156], name='Zachary's Karate Club', num_nodes=34, laplacian_eigenvector_pe=[34, 10])
 ```
+
+# Nomenclature
+
+The [GraphGPS](https://arxiv.org/pdf/2205.12454.pdf) paper proposes a categorization of PE and SE into Global, Local and Relative encodings.
+
+| Encoding type | Positional                                  | Structural                                               |
+|---------------|---------------------------------------------|----------------------------------------------------------|
+| Local         | The position of a node in its neighborhood. | A description of the structure of a node's neighborhood. |
+| Global        | The position of a node in the entire graph. | A description of the structure of a graph.               |
+| Relative      | The distance between two nodes.             | The difference between two node's neighborhoods.         |
+
 
 # Conclusion
 
@@ -118,3 +129,5 @@ Vaswani, Ashish et al. 2023. « Attention Is All You Need ». http://arxiv.org
 « Papers with Code - A Generalization of Transformer Networks to Graphs ». https://paperswithcode.com/paper/a-generalization-of-transformer-networks-to (10 février 2024).
 
 Ying, Chengxuan et al. 2021. « Do Transformers Really Perform Bad for Graph Representation? » http://arxiv.org/abs/2106.05234 (10 février 2024).
+
+Rampášek, Ladislav et al. 2023. « Recipe for a General, Powerful, Scalable Graph Transformer ». http://arxiv.org/abs/2205.12454 (11 février 2024).
